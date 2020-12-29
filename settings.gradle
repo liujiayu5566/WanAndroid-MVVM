@@ -1,0 +1,9 @@
+if (!isModule.toBoolean()) {
+    include ':app'
+}
+include ':home'
+include ':sort'
+include ':me'
+include ':common'
+//include ':test'
+rootProject.name = "mvvm-wanandroid"

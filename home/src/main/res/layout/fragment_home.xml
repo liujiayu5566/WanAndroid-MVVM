@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="MainDataBinding">
+
+        <variable
+            name="viewModel"
+            type="com.castiel.home.viewmodel.HomeViewModel" />
+
+    </data>
+
+    <com.castiel.common.widget.MultiStateView
+        android:id="@id/state_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:msv_emptyView="@layout/empty_view"
+        app:msv_errorView="@layout/error_view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:id="@+id/collapsingToolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        app:contentScrim="@color/colorPrimary"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                        <com.youth.banner.Banner
+                            android:id="@+id/banner"
+                            android:layout_width="match_parent"
+                            android:layout_height="210dp"
+                            android:visibility="visible"
+                            app:banner_indicator_gravity="left"
+                            app:banner_indicator_selected_color="@color/white"
+                            app:layout_collapseMode="parallax" />
+
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:minHeight="?attr/actionBarSize"
+                            app:layout_collapseMode="pin">
+
+                            <include layout="@layout/layout_search" />
+
+                        </androidx.appcompat.widget.Toolbar>
+
+
+                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tablayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:overScrollMode="never"
+                        app:tabIndicatorColor="@color/colorAccent"
+                        app:tabSelectedTextColor="@color/colorAccent"
+                        app:tabTextColor="@color/white" />
+                </com.google.android.material.appbar.AppBarLayout>
+
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.castiel.common.widget.MultiStateView>
+</layout>
