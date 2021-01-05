@@ -33,8 +33,9 @@ ext {
             glide                  : 'com.github.bumptech.glide:glide:4.11.0',
             glide_compiler         : 'com.github.bumptech.glide:compiler:4.11.0',
             downloader             : 'com.download.library:Downloader:4.1.4',
-            agentweb             : 'com.just.agentweb:agentweb:4.1.4',
-            autosize             : 'me.jessyan:autosize:1.2.1',
+            agentweb               : 'com.just.agentweb:agentweb:4.1.4',
+            autosize               : 'me.jessyan:autosize:1.2.1',
+            lottie                 : 'com.airbnb.android:lottie:3.5.0',
 
     ]
 }

@@ -47,7 +47,6 @@ dependencies {
     kapt rootProject.ext.dependencies.arouter_compiler
     if (!isModule.toBoolean()) {
         implementation project(path: ':home')
-        implementation project(path: ':sort')
         implementation project(path: ':me')
     }
 

@@ -8,6 +8,7 @@ import java.lang.Exception
 
 typealias Block<T> = suspend () -> BaseResponse<T>
 typealias Success<T> = (T?) -> Unit
+typealias Failure = (BaseResponse<*>) -> Unit
 typealias Error = (e: String) -> Unit
 typealias Complete = () -> Unit
 
@@ -19,6 +20,7 @@ open class BaseViewModel : ViewModel() {
     protected fun <T> lauch(
         block: Block<T>,
         success: Success<T>,
+        failure: Failure? = null,
         error: Error? = null,
         complete: Complete? = null
     ): Job {
@@ -28,7 +30,7 @@ open class BaseViewModel : ViewModel() {
                 if (response.errorCode == 0) {
                     success(response.data)
                 } else {
-                    toast.postValue(response.errorMsg)
+                    failure?.invoke(response)
                 }
             } catch (e: Exception) {
                 error?.invoke(e.toString())

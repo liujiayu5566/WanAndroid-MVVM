@@ -3,8 +3,10 @@
     <color name="colorPrimary">#1A1A2A</color>
     <color name="colorPrimaryDark">#1A1A2A</color>
     <color name="colorAccent">#FFBC00</color>
+
     <!-- drawable命名：shape_round_参数_颜色+前缀_透明度   -->
     <!-- color命名：颜色+前缀_透明度   -->
+
     <color name="white">#FFFFFF</color>
     <color name="white_50">#80FFFFFF</color>
     <color name="white_80">#CCFFFFFF</color>

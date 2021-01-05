@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.castiel.common.R
+import com.castiel.common.dialog.LoadingDialog
 import com.castiel.common.utils.StatusBarUtil
 import com.castiel.common.utils.ToastUtils
 import com.castiel.common.widget.MultiStateView
@@ -29,7 +30,8 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     protected abstract fun initViewModelId(): Int?
     protected abstract fun getLayoutId(): Int
     protected abstract fun initData()
-    protected abstract fun initView()
+
+    private var loading: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +50,6 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     }
 
     protected open fun setStatusBar() {
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,6 +65,10 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
         }
     }
 
+    protected open fun initView() {
+        loading = LoadingDialog(mContext)
+    }
+
     private fun addObserver() {
         val stateView: MultiStateView? =
             dataBinding.root.findViewById(R.id.state_view)
@@ -71,6 +76,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
             stateView.getView(MultiStateView.ViewState.ERROR)?.findViewById<TextView>(R.id.retry)
                 ?.setOnClickListener {
                     viewModel.toast.postValue("重试")
+                    initData()
                 }
             viewModel.state.observe(this, Observer {
                 stateView.viewState = it
@@ -81,14 +87,19 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
         })
         viewModel.loading.observe(this, Observer {
             if (it) {
-
+                loading?.show()
             } else {
-
+                loading?.dismiss()
             }
         })
     }
 
     private fun showToast(msg: String?) {
         msg?.let { ToastUtils.showToast(mContext, msg) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        loading?.dismiss()
     }
 }

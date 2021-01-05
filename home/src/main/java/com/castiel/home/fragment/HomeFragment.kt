@@ -12,7 +12,7 @@ import com.castiel.home.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
-
+    private var imageAdapter: ImageAdapter? = null
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
@@ -28,13 +28,17 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
     override fun initView() {
         viewModel.bannerResponse.observe(
             this, Observer {
-                banner.adapter = ImageAdapter(it)
+                if (imageAdapter == null) {
+                    imageAdapter = ImageAdapter(it)
+                    banner.adapter = imageAdapter
+                } else imageAdapter?.setDatas(it)
                 banner.start()
             }
         )
     }
 
     override fun initData() {
+        viewModel.loading.postValue(true)
         viewModel.getBanner()
     }
 

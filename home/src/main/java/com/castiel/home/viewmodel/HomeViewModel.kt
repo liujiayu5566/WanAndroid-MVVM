@@ -12,11 +12,9 @@ class HomeViewModel() : BaseViewModel() {
     var bannerResponse: MediatorLiveData<List<BannerResponse>> = MediatorLiveData()
 
     fun getBanner() {
-        lauch(
-            {
-                delay(3000)
-                RetrofitClient.instance.getApi(Api::class.java).getBaner()
-            },
+        lauch({
+            RetrofitClient.instance.getApi(Api::class.java).getBaner()
+        },
             {
                 when {
                     it == null -> {
@@ -31,8 +29,12 @@ class HomeViewModel() : BaseViewModel() {
                     }
                 }
 
+            }, failure = {
+                toast.postValue(it.errorMsg)
             }, error = {
                 state.value = MultiStateView.ViewState.ERROR
+            }, complete = {
+                loading.postValue(false)
             }
         )
     }
