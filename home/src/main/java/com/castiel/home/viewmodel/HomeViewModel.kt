@@ -6,14 +6,16 @@ import com.castiel.home.http.Api
 import com.castiel.common.http.RetrofitClient
 import com.castiel.common.widget.MultiStateView
 import com.castiel.home.bean.BannerResponse
-import kotlinx.coroutines.delay
+import com.castiel.home.bean.HomeListData
 
 class HomeViewModel() : BaseViewModel() {
     var bannerResponse: MediatorLiveData<List<BannerResponse>> = MediatorLiveData()
+    var homeResponse: MediatorLiveData<List<HomeListData>> = MediatorLiveData()
+    var complete = MediatorLiveData<Any>()
 
-    fun getBanner() {
+    fun netBanner() {
         lauch({
-            RetrofitClient.instance.getApi(Api::class.java).getBaner()
+            RetrofitClient.instance.getApi(Api::class.java).netBaner()
         },
             {
                 when {
@@ -26,6 +28,35 @@ class HomeViewModel() : BaseViewModel() {
                     else -> {
                         state.postValue(MultiStateView.ViewState.CONTENT)
                         bannerResponse.postValue(it)
+                    }
+                }
+
+            }, failure = {
+                toast.postValue(it.errorMsg)
+            }, error = {
+                state.value = MultiStateView.ViewState.ERROR
+            }, complete = {
+                loading.postValue(false)
+            }
+        )
+    }
+
+
+    fun netHomeList(index: Int) {
+        lauch({
+            RetrofitClient.instance.getApi(Api::class.java).netHomeList(index)
+        },
+            {
+                when {
+                    it == null -> {
+                        state.postValue(MultiStateView.ViewState.ERROR)
+                    }
+                    it.datas.isEmpty() -> {
+                        state.postValue(MultiStateView.ViewState.EMPTY)
+                    }
+                    else -> {
+                        state.postValue(MultiStateView.ViewState.CONTENT)
+                        homeResponse.postValue(it.datas)
                     }
                 }
 

@@ -52,8 +52,12 @@ dependencies {
     api rootProject.ext.dependencies.banner
     api rootProject.ext.dependencies.agentweb
     api rootProject.ext.dependencies.autosize
-    api rootProject.ext.dependencies.lottie
+    api rootProject.ext.dependencies.refresh_layout
 
     api rootProject.ext.dependencies.glide
     kapt rootProject.ext.dependencies.glide_compiler
+
+
+    api  'com.scwang.smart:refresh-header-classics:2.0.1'
+    api  'com.scwang.smart:refresh-footer-classics:2.0.1'
 }

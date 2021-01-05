@@ -8,8 +8,8 @@ import com.castiel.home.bean.BannerResponse
 import com.youth.banner.adapter.BannerAdapter
 
 
-class ImageAdapter(list: List<BannerResponse>) :
-    BannerAdapter<BannerResponse, ImageAdapter.BannerViewHolder>(list) {
+class BannerImageAdapter(list: List<BannerResponse>) :
+    BannerAdapter<BannerResponse, BannerImageAdapter.BannerViewHolder>(list) {
 
     override fun onCreateHolder(parent: ViewGroup, viewType: Int): BannerViewHolder? {
         val imageView = ImageView(parent.context)
@@ -34,7 +34,7 @@ class ImageAdapter(list: List<BannerResponse>) :
             .into(holder.imageView)
     }
 
-    class BannerViewHolder(view: ImageView) : RecyclerView.ViewHolder(view) {
+    inner class BannerViewHolder(view: ImageView) : RecyclerView.ViewHolder(view) {
         var imageView: ImageView = view
     }
 }

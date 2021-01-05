@@ -33,6 +33,7 @@ open class BaseViewModel : ViewModel() {
                     failure?.invoke(response)
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 error?.invoke(e.toString())
             } finally {
                 complete?.invoke()
