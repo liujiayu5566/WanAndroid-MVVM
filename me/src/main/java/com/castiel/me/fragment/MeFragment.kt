@@ -4,8 +4,9 @@ import androidx.databinding.ViewDataBinding
 import com.castiel.common.base.BaseFragment
 import com.castiel.common.base.BaseViewModel
 import com.castiel.me.R
+import com.castiel.me.databinding.FragmentMeBinding
 
-class MeFragment : BaseFragment<ViewDataBinding, BaseViewModel>() {
+class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_me

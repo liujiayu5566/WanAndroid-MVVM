@@ -27,9 +27,12 @@ class HomeListAdapter : RecyclerView.Adapter<HomeListAdapter.ViewHolder>() {
 
 
     fun setDate(list: List<HomeListData>) {
+        if (this.list == list) {
+            return
+        }
         this.list.clear()
         this.list.addAll(list)
-        notifyItemChanged(itemCount, list.size)
+        notifyDataSetChanged()
     }
 
     fun addDate(list: List<HomeListData>) {

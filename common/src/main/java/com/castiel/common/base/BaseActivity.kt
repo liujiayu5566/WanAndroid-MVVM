@@ -24,6 +24,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     protected abstract fun initViewModel(): Class<VM>
     protected abstract fun initViewModelId(): Int?
     protected abstract fun getLayout(): Int
+    protected abstract fun initView()
     protected abstract fun initData()
     private var loading: LoadingDialog? = null
 
@@ -35,6 +36,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
         ARouter.getInstance().inject(this)
         val initViewModelId = initViewModelId()
         initViewModelId?.let { dataBinding.setVariable(initViewModelId, viewModel) }
+        loading = LoadingDialog(this)
         addObserver()
         initView()
         initData()
@@ -42,10 +44,6 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     }
 
     protected open fun setStatusBar() {
-    }
-
-    protected open fun initView() {
-        loading = LoadingDialog(this)
     }
 
     private fun addObserver() {

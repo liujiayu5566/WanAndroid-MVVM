@@ -1,23 +1,27 @@
 package com.castiel.home.fragment
 
 import android.app.Activity
+import android.content.Intent
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.castiel.common.base.BaseFragment
+import com.castiel.common.ui.WebActivity
 import com.castiel.common.utils.StatusBarUtil
 import com.castiel.home.BR
 import com.castiel.home.R
 import com.castiel.home.adapter.BannerImageAdapter
 import com.castiel.home.adapter.HomeListAdapter
-import com.castiel.home.databinding.MainDataBinding
+import com.castiel.home.bean.BannerResponse
+import com.castiel.home.databinding.FragmentHomeBinding
 import com.castiel.home.viewmodel.HomeViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private var imageAdapter: BannerImageAdapter? = null
     private var homeListAdapter: HomeListAdapter? = null
     private var index = 0
@@ -35,7 +39,11 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
     }
 
     override fun initView() {
-        dataBinding.refreshlayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
+        refreshlayout.setEnableOverScrollBounce(true)//是否启用越界回弹
+        refreshlayout.setEnableAutoLoadMore(true)//是否启用列表惯性滑动到底部时自动加载更多
+        refreshlayout.setEnableLoadMoreWhenContentNotFull(true)//是否在列表不满一页时候开启上拉加载功能
+        refreshlayout.setEnableOverScrollDrag(true)//是否启用越界拖动（仿苹果效果）1.0.4
+        refreshlayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onLoadMore(refreshLayout: RefreshLayout) {
                 index++
                 viewModel.netHomeList(index)
@@ -54,6 +62,12 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
                 if (imageAdapter == null) {
                     imageAdapter = BannerImageAdapter(it)
                     banner.adapter = imageAdapter
+                    imageAdapter?.setOnBannerListener(OnBannerListener<BannerResponse> { data, position ->
+                        val url = data?.url
+                        val intent = Intent(context, WebActivity::class.java)
+                        intent.putExtra("url", url)
+                        startActivity(intent)
+                    })
                 } else imageAdapter?.setDatas(it)
                 banner.start()
             }
@@ -63,8 +77,8 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
             this, Observer {
                 if (homeListAdapter == null) {
                     homeListAdapter = HomeListAdapter()
-                    dataBinding.recyclerview.layoutManager = LinearLayoutManager(context)
-                    dataBinding.recyclerview.adapter = homeListAdapter
+                    recyclerview.layoutManager = LinearLayoutManager(context)
+                    recyclerview.adapter = homeListAdapter
                 }
                 if (index == 0)
                     homeListAdapter?.setDate(it)
@@ -73,8 +87,8 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
         )
 
         viewModel.loading.observe(this, Observer {
-            dataBinding.refreshlayout.finishRefresh()
-            dataBinding.refreshlayout.finishLoadMore()
+            refreshlayout.finishRefresh()
+            refreshlayout.finishLoadMore()
         })
     }
 
@@ -87,7 +101,7 @@ class HomeFragment : BaseFragment<MainDataBinding, HomeViewModel>() {
     override fun setStatusBar() {
         StatusBarUtil.setTransparentForImageViewInFragment(
             context as Activity?,
-            dataBinding.toolbar
+            toolbar
         )
     }
 }

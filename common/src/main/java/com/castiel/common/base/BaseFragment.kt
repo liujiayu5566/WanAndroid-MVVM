@@ -29,6 +29,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     protected abstract fun initViewModel(): Class<VM>
     protected abstract fun initViewModelId(): Int?
     protected abstract fun getLayoutId(): Int
+    protected abstract fun initView()
     protected abstract fun initData()
 
     private var loading: LoadingDialog? = null
@@ -44,8 +45,6 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
         ARouter.getInstance().inject(this)
         val initViewModelId = initViewModelId()
         initViewModelId?.let { dataBinding.setVariable(initViewModelId, viewModel) }
-        addObserver()
-        setStatusBar()
         return dataBinding.root
     }
 
@@ -54,7 +53,10 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        loading = LoadingDialog(mContext)
         initView()
+        addObserver()
+        setStatusBar()
     }
 
     override fun onResume() {
@@ -63,10 +65,6 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
             initData()
             isDataInit = true
         }
-    }
-
-    protected open fun initView() {
-        loading = LoadingDialog(mContext)
     }
 
     private fun addObserver() {

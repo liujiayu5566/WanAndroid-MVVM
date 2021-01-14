@@ -36,7 +36,7 @@ ext {
             agentweb               : 'com.just.agentweb:agentweb:4.1.4',
             autosize               : 'me.jessyan:autosize:1.2.1',
             lottie                 : 'com.airbnb.android:lottie:3.5.0',
-            refresh_layout                 : 'com.scwang.smart:refresh-layout-kernel:2.0.2',
+            refresh_layout         : 'com.scwang.smart:refresh-layout-kernel:2.0.2',
 
     ]
 }
