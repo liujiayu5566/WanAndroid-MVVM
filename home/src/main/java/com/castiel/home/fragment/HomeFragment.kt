@@ -2,24 +2,26 @@ package com.castiel.home.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.widget.LinearLayout
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.castiel.common.base.BaseAdapter
 import com.castiel.common.base.BaseFragment
 import com.castiel.common.ui.WebActivity
 import com.castiel.common.utils.StatusBarUtil
-import com.castiel.home.BR
 import com.castiel.home.R
 import com.castiel.home.adapter.BannerImageAdapter
 import com.castiel.home.adapter.HomeListAdapter
 import com.castiel.home.bean.BannerResponse
+import com.castiel.home.bean.HomeListData
 import com.castiel.home.databinding.FragmentHomeBinding
 import com.castiel.home.viewmodel.HomeViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import com.youth.banner.indicator.RectangleIndicator
 import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private var imageAdapter: BannerImageAdapter? = null
@@ -34,8 +36,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         return HomeViewModel::class.java
     }
 
-    override fun initViewModelId(): Int {
-        return BR.viewModel
+    override fun initViewModelId(): Int? {
+        return null
     }
 
     override fun initView() {
@@ -52,39 +54,56 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 index = 0
                 viewModel.netHomeList(index)
+                viewModel.netBanner()
             }
 
         })
-
-
+        //banner
         viewModel.bannerResponse.observe(
             this, Observer {
                 if (imageAdapter == null) {
                     imageAdapter = BannerImageAdapter(it)
-                    banner.adapter = imageAdapter
                     imageAdapter?.setOnBannerListener(OnBannerListener<BannerResponse> { data, position ->
                         val url = data?.url
                         val intent = Intent(context, WebActivity::class.java)
                         intent.putExtra("url", url)
                         startActivity(intent)
                     })
+                    banner.addBannerLifecycleObserver(this)//添加生命周期观察者
+                        .setAdapter(imageAdapter).indicator = RectangleIndicator(context)
                 } else imageAdapter?.setDatas(it)
                 banner.start()
             }
         )
 
+        recyclerview.itemAnimator = null
         viewModel.homeResponse.observe(
             this, Observer {
                 if (homeListAdapter == null) {
                     homeListAdapter = HomeListAdapter()
                     recyclerview.layoutManager = LinearLayoutManager(context)
                     recyclerview.adapter = homeListAdapter
+                    homeListAdapter?.clickListener =
+                        object : BaseAdapter.OnItemClickListener<HomeListData> {
+                            override fun onItemClick(
+                                view: View?,
+                                t: HomeListData,
+                                position: Int
+                            ) {
+                                t.run {
+                                    val intent = Intent(context, WebActivity::class.java)
+                                    intent.putExtra("url", link)
+                                    startActivity(intent)
+                                }
+
+                            }
+                        }
                 }
-                if (index == 0)
-                    homeListAdapter?.setDate(it)
-                else homeListAdapter?.addDate(it)
-            }
-        )
+
+                homeListAdapter?.run {
+                    submitList(it)
+                }
+            })
 
         viewModel.loading.observe(this, Observer {
             refreshlayout.finishRefresh()

@@ -3,7 +3,9 @@ package com.castiel.common.utils
 import android.text.TextUtils
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.castiel.common.base.BaseAdapter
 
 object DataBindingAdapter {
 

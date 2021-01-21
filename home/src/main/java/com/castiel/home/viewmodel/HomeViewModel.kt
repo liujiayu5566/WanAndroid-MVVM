@@ -43,6 +43,7 @@ class HomeViewModel() : BaseViewModel() {
 
 
     fun netHomeList(index: Int) {
+        if (index == 0) homeResponse.value = null
         lauch({
             RetrofitClient.instance.getApi(Api::class.java).netHomeList(index)
         },
@@ -56,7 +57,11 @@ class HomeViewModel() : BaseViewModel() {
                     }
                     else -> {
                         state.postValue(MultiStateView.ViewState.CONTENT)
-                        homeResponse.postValue(it.datas)
+                        homeResponse.value?.run {
+                            val list = toMutableList()
+                            list.addAll(it.datas)
+                            homeResponse.postValue(list)
+                        } ?: homeResponse.postValue(it.datas)
                     }
                 }
 

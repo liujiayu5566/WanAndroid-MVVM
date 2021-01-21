@@ -1,10 +1,9 @@
 package com.castiel.common.ui
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.text.TextUtils
 import android.view.KeyEvent
-import android.view.ViewGroup
+import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
@@ -16,11 +15,12 @@ import com.castiel.common.utils.ToastUtils
 import com.castiel.common.widget.MultiStateView
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
-import com.just.agentweb.WebViewClient
+import kotlinx.android.synthetic.main.activity_common_webview.*
 import java.lang.ref.WeakReference
 
 
-class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>() {
+class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>(),
+    View.OnClickListener {
     private lateinit var mAgentWeb: AgentWeb
     override fun initViewModel(): Class<BaseViewModel> {
         return BaseViewModel::class.java
@@ -41,8 +41,9 @@ class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>() 
             viewModel.state.postValue(MultiStateView.ViewState.ERROR)
             return
         }
+        iv_back.setOnClickListener(this)
         mAgentWeb = AgentWeb.with(this)
-            .setAgentWebParent(dataBinding.webview, LinearLayout.LayoutParams(-1, -1))
+            .setAgentWebParent(webview, LinearLayout.LayoutParams(-1, -1))
             .closeIndicator()
             .setWebChromeClient(webChromeClient)
             .createAgentWeb()
@@ -61,7 +62,7 @@ class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>() 
 
         override fun onReceivedTitle(view: WebView?, title: String?) {
             super.onReceivedTitle(view, title)
-            dataBinding.tvTitle.text = title
+            tv_title.text = title
         }
 
         override fun onProgressChanged(view: WebView, newProgress: Int) {
@@ -114,6 +115,16 @@ class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>() 
         }
 
 
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.iv_back -> {
+                finish()
+            }
+            else -> {
+            }
+        }
     }
 
 }

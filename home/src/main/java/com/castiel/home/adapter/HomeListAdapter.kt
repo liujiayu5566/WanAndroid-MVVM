@@ -1,15 +1,14 @@
 package com.castiel.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.castiel.common.base.BaseAdapter
 import com.castiel.home.bean.HomeListData
-import com.castiel.home.bean.HomeResponse
 import com.castiel.home.databinding.ItemHomeListBinding
 
-class HomeListAdapter : RecyclerView.Adapter<HomeListAdapter.ViewHolder>() {
-    private val list: ArrayList<HomeListData> = ArrayList()
+class HomeListAdapter : BaseAdapter<HomeListData, HomeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -17,30 +16,10 @@ class HomeListAdapter : RecyclerView.Adapter<HomeListAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.model = list[position]
+        super.onBindViewHolder(holder, position)
+        holder.binding.model = getItem(position)
     }
 
-
-    fun setDate(list: List<HomeListData>) {
-        if (this.list == list) {
-            return
-        }
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    fun addDate(list: List<HomeListData>) {
-        this.list.addAll(list)
-        notifyItemChanged(itemCount, list.size)
-    }
-
-    inner class ViewHolder(var binding: ItemHomeListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-    }
+    inner class ViewHolder(var binding: ItemHomeListBinding) : RecyclerView.ViewHolder(binding.root)
 }

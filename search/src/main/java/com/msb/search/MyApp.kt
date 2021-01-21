@@ -1,6 +1,5 @@
-package com.castiel.me
+package com.msb.search
 
-import android.app.Application
 import com.castiel.common.AppManager
 import com.castiel.common.BaseApp
 

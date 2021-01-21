@@ -2,6 +2,7 @@ package com.castiel.common.base
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -44,6 +45,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     }
 
     protected open fun setStatusBar() {
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0)
     }
 
     private fun addObserver() {

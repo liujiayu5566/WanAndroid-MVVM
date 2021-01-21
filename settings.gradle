@@ -1,3 +1,4 @@
+include ':search'
 if (!isModule.toBoolean()) {
     include ':app'
 }
