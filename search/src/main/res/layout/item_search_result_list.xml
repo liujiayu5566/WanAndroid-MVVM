@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.castiel.home.bean.HomeListData" />
+            type="com.msb.search.bean.SearchResultListData" />
 
         <import type="android.view.View" />
 

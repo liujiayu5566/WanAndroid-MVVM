@@ -1,8 +1,8 @@
-package com.castiel.home.bean
+package com.msb.search.bean
 
-data class HomeResponse(
+data class SearchResult(
     val curPage: Int,
-    val datas: List<HomeListData>,
+    val datas: List<SearchResultListData>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,
@@ -10,7 +10,7 @@ data class HomeResponse(
     val total: Int
 )
 
-data class HomeListData(
+data class SearchResultListData(
     val apkLink: String,
     val audit: Int,
     val author: String,

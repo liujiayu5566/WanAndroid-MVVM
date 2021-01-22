@@ -16,8 +16,7 @@ class HomeListAdapter : BaseAdapter<HomeListData, HomeListAdapter.ViewHolder>() 
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
+    override fun onBindViewHolderModel(holder: ViewHolder, position: Int) {
         holder.binding.model = getItem(position)
     }
 

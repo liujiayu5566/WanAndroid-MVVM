@@ -36,8 +36,10 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> :
                 onItemLongClick(it, getItem(position), position)
             }
         }
+        onBindViewHolderModel(holder, position)
     }
 
+    abstract fun onBindViewHolderModel(holder: VH, position: Int)
 
     interface OnItemClickListener<T> {
         fun onItemClick(view: View?, t: T, position: Int)

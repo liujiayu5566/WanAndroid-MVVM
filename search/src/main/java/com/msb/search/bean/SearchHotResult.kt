@@ -1,6 +1,6 @@
 package com.msb.search.bean
 
-data class SearchHotResponse(
+data class SearchHotResult(
     val id: Int,
     val link: String,
     val name: String,

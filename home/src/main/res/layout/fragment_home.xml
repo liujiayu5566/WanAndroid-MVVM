@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -72,7 +75,9 @@
                         android:minHeight="?attr/actionBarSize"
                         app:layout_collapseMode="pin">
 
-                        <include layout="@layout/layout_home_search" />
+                        <include
+                            layout="@layout/layout_home_search"
+                            app:onClickListener="@{onClickListener}" />
 
                     </androidx.appcompat.widget.Toolbar>
 

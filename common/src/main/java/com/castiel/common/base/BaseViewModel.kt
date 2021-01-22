@@ -1,6 +1,7 @@
 package com.castiel.common.base
 
 import androidx.lifecycle.*
+import com.castiel.common.R
 import com.castiel.common.widget.MultiStateView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ open class BaseViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                error?.invoke(e.toString())
+                error?.run { invoke(e.toString()) } ?: toast.postValue("网络异常，请稍后重试")
             } finally {
                 complete?.invoke()
             }

@@ -1,6 +1,6 @@
 package com.castiel.home.bean
 
-data class BannerResponse(
+data class BannerResult(
     var desc: String,
     var id: Int,
     var imagePath: String,

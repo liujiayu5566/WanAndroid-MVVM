@@ -4,12 +4,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.castiel.home.bean.BannerResponse
+import com.castiel.home.bean.BannerResult
 import com.youth.banner.adapter.BannerAdapter
 
 
-class BannerImageAdapter(list: List<BannerResponse>) :
-    BannerAdapter<BannerResponse, BannerImageAdapter.BannerViewHolder>(list) {
+class BannerImageAdapter(list: List<BannerResult>) :
+    BannerAdapter<BannerResult, BannerImageAdapter.BannerViewHolder>(list) {
 
     override fun onCreateHolder(parent: ViewGroup, viewType: Int): BannerViewHolder? {
         val imageView = ImageView(parent.context)
@@ -23,7 +23,7 @@ class BannerImageAdapter(list: List<BannerResponse>) :
 
     override fun onBindView(
         holder: BannerViewHolder,
-        data: BannerResponse,
+        data: BannerResult,
         position: Int,
         size: Int
     ) {

@@ -37,8 +37,10 @@ ext {
             autosize               : 'me.jessyan:autosize:1.2.1',
             lottie                 : 'com.airbnb.android:lottie:3.5.0',
             refresh_layout         : 'com.scwang.smart:refresh-layout-kernel:2.0.2',
-            flowlayout             : 'com.hyman:flowlayout-lib:1.1.2',
+            chips_layout             : 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar',
             utilcodex              : 'com.blankj:utilcodex:1.30.5',
+            mmkv                   : 'com.tencent:mmkv-static:1.2.5',
+            gif_drawable           : 'pl.droidsonroids.gif:android-gif-drawable:1.2.+',
     ]
 }
 

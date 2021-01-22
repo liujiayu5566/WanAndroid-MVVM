@@ -4,12 +4,16 @@ import androidx.lifecycle.MediatorLiveData
 import com.castiel.common.base.BaseViewModel
 import com.castiel.common.http.RetrofitClient
 import com.castiel.common.widget.MultiStateView
-import com.msb.search.bean.SearchHotResponse
+import com.msb.search.bean.SearchHotResult
+import com.msb.search.bean.SearchResult
 import com.msb.search.http.Api
 
 class SearchViewModel : BaseViewModel() {
-    var searchHotResponse: MediatorLiveData<List<SearchHotResponse>> = MediatorLiveData()
+    var searchHotResult: MediatorLiveData<List<SearchHotResult>> = MediatorLiveData()
 
+    /**
+     * 搜索热词
+     */
     fun netSearchHot() {
         lauch({
             RetrofitClient.instance.getApi(Api::class.java).netSearchHot()
@@ -24,7 +28,7 @@ class SearchViewModel : BaseViewModel() {
                     }
                     else -> {
                         state.postValue(MultiStateView.ViewState.CONTENT)
-                        searchHotResponse.postValue(it)
+                        searchHotResult.postValue(it)
                     }
                 }
 
@@ -37,5 +41,6 @@ class SearchViewModel : BaseViewModel() {
             }
         )
     }
+
 
 }

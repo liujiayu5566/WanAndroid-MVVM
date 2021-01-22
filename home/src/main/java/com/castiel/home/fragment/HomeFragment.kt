@@ -5,14 +5,16 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.castiel.common.base.BaseAdapter
 import com.castiel.common.base.BaseFragment
 import com.castiel.common.ui.WebActivity
 import com.castiel.common.utils.StatusBarUtil
+import com.castiel.common.widget.MultiStateView
 import com.castiel.home.R
 import com.castiel.home.adapter.BannerImageAdapter
 import com.castiel.home.adapter.HomeListAdapter
-import com.castiel.home.bean.BannerResponse
+import com.castiel.home.bean.BannerResult
 import com.castiel.home.bean.HomeListData
 import com.castiel.home.databinding.FragmentHomeBinding
 import com.castiel.home.viewmodel.HomeViewModel
@@ -23,7 +25,7 @@ import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.OnClickListener {
     private var imageAdapter: BannerImageAdapter? = null
     private var homeListAdapter: HomeListAdapter? = null
     private var index = 0
@@ -41,6 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     override fun initView() {
+        dataBinding.onClickListener = this
         refreshlayout.setEnableOverScrollBounce(true)//是否启用越界回弹
         refreshlayout.setEnableAutoLoadMore(true)//是否启用列表惯性滑动到底部时自动加载更多
         refreshlayout.setEnableLoadMoreWhenContentNotFull(true)//是否在列表不满一页时候开启上拉加载功能
@@ -59,11 +62,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
         })
         //banner
-        viewModel.bannerResponse.observe(
+        viewModel.bannerResult.observe(
             this, Observer {
                 if (imageAdapter == null) {
                     imageAdapter = BannerImageAdapter(it)
-                    imageAdapter?.setOnBannerListener(OnBannerListener<BannerResponse> { data, position ->
+                    imageAdapter?.setOnBannerListener(OnBannerListener<BannerResult> { data, position ->
                         val url = data?.url
                         val intent = Intent(context, WebActivity::class.java)
                         intent.putExtra("url", url)
@@ -103,6 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 homeListAdapter?.run {
                     submitList(it)
                 }
+                if (it.isEmpty()) viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
             })
 
         viewModel.loading.observe(this, Observer {
@@ -122,5 +126,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             context as Activity?,
             toolbar
         )
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.fragment_search_ll -> {//搜索
+                ARouter.getInstance().build("/activity/searchActivity").navigation()
+            }
+            else -> {
+            }
+        }
     }
 }

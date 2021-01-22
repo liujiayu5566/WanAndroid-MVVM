@@ -2,6 +2,7 @@ package com.castiel.common
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
+import com.tencent.mmkv.MMKV
 
 class AppManager {
     private var context: Application? = null
@@ -19,10 +20,9 @@ class AppManager {
             throw Exception("AppManager Already initialized")
         }
         this.context = context
-        if (true) {
-            ARouter.openLog()
-            ARouter.openDebug()
-        }
+        MMKV.initialize(context)
+        ARouter.openLog()
+        ARouter.openDebug()
         ARouter.init(context)
     }
 }
