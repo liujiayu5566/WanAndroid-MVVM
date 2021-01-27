@@ -1,4 +1,4 @@
-package com.castiel.test;
+package com.castio.test;
 
 import static java.sql.DriverManager.println;
 

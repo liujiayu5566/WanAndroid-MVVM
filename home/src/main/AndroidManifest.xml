@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.castiel.home">
+    package="com.castio.home">
 
     <application>
-        <activity android:name=".MainActivity"/>
+        <activity android:name="com.castio.home.MainActivity"/>
     </application>
 
 

@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.castiel.home.bean.HomeListData" />
+            type="com.castio.home.bean.HomeListData" />
 
         <import type="android.view.View" />
 

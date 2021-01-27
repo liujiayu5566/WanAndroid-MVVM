@@ -4,6 +4,13 @@
 
     <data>
 
+        <variable
+            name="OnClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -11,37 +18,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/colorPrimary">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="5dp"
-                android:src="@drawable/ic_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_title"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="100dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            layout="@layout/layout_appbar"
+            app:OnClickListener="@{OnClickListener}"
+            app:title="@{title}" />
 
         <FrameLayout
             android:id="@+id/webview"

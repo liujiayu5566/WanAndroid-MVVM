@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 
@@ -46,6 +46,7 @@ dependencies {
     implementation project(path: ':common')
     kapt rootProject.ext.dependencies.arouter_compiler
     if (!isModule.toBoolean()) {
+        implementation project(path: ':login')
         implementation project(path: ':home')
         implementation project(path: ':search')
         implementation project(path: ':me')

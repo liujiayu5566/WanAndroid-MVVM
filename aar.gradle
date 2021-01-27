@@ -1,0 +1,28 @@
+//一健导出生成的aar 到指定目录
+task assembleMoveDebugAAR(type: Copy) {
+    dependsOn cleanAAR
+    doLast {
+        group "build"
+        from("libs/", "build/outputs/aar/")
+        into('../release/')
+        include('*.aar')
+        exclude('*-release.aar')
+        rename('-debug.aar', '1.aar')
+    }
+}
+
+task assembleMoveReleaseAAR(type: Copy) {
+    group "build"
+    from("libs/", "build/outputs/aar/")
+    into('../release/')
+    include('*.aar')
+    exclude('*-debug.aar')
+    rename('-release.aar', '.aar')
+}
+
+task cleanAAR(type: Delete) {
+    group "build"
+    delete('../release/')
+}
+
+assembleMoveReleaseAAR.dependsOn cleanAAR

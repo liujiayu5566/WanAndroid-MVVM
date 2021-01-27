@@ -2,7 +2,7 @@ ext {
     android = [
             compileSdkVersion: 29,
             buildToolsVersion: '29.0.3',
-            applicationId    : 'com.castiel.mvvm_wanandroid',
+            applicationId    : 'com.castio.mvvm_wanandroid',
             minSdkVersion    : 21,
             targetSdkVersion : 29,
             versionCode      : 1,
@@ -37,7 +37,7 @@ ext {
             autosize               : 'me.jessyan:autosize:1.2.1',
             lottie                 : 'com.airbnb.android:lottie:3.5.0',
             refresh_layout         : 'com.scwang.smart:refresh-layout-kernel:2.0.2',
-            chips_layout             : 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar',
+            chips_layout           : 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar',
             utilcodex              : 'com.blankj:utilcodex:1.30.5',
             mmkv                   : 'com.tencent:mmkv-static:1.2.5',
             gif_drawable           : 'pl.droidsonroids.gif:android-gif-drawable:1.2.+',
