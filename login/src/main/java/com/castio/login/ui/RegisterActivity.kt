@@ -36,6 +36,10 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding, RegisterVideModel
     }
 
     override fun initData() {
+
+    }
+
+    override fun initObserver() {
         viewModel.loginResult.observe(this, Observer {
             MmkvWrap.instance.encode(Constants.MMKV_LOGIN_RESULT, it)
             setResult(Activity.RESULT_OK)

@@ -1,5 +1,6 @@
 package com.castio.search.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -69,13 +70,17 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(),
             }
         }
 
-        viewModel.searchHotResult.observe(this, Observer {
 
-        })
     }
 
     override fun initData() {
         viewModel.netSearchHot()
+    }
+
+    override fun initObserver() {
+        viewModel.searchHotResult.observe(this, Observer {
+
+        })
     }
 
     override fun onClick(v: View?) {

@@ -17,37 +17,45 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClickListener {
+    private val fragments: ArrayList<Fragment> = ArrayList()
+
     @JvmField
     @Autowired(name = NavigationConstants.NAVIGATION_HOMEFRAGMENTPROVIDER)
     var homeFragmentProviderImpl: IFragmentProvider? = null
+
+    @JvmField
+    @Autowired(name = NavigationConstants.NAVIGATION_PROBLEMFRAGMENTPROVIDERIMPL)
+    var problemFragmentProviderImpl: IFragmentProvider? = null
+
 
     @JvmField
     @Autowired(name = NavigationConstants.NAVIGATION_USERFRAGMENTPROVIDER)
     var meFragmentProviderImpl: IFragmentProvider? = null
 
     override fun initView() {
-        val fragments: ArrayList<Fragment> = ArrayList()
         //首页
         homeFragmentProviderImpl?.run {
-            val binding = LayoutNavigationButtonBinding.inflate(layoutInflater)
-            binding.ivNavigation.setImageResource(R.drawable.navigation_home_icon)
-            binding.tvNavigation.text = getString(R.string.navigation_home)
-            binding.root.id = R.id.navigation_home
-
-            addNavigationButton(binding.root)
-
-            fragments.add(this.getFragment())
+            addFragment(
+                R.drawable.navigation_home_icon,
+                R.string.navigation_home,
+                R.id.navigation_home
+            )
+        }
+        //问答
+        problemFragmentProviderImpl?.run {
+            addFragment(
+                R.drawable.navigation_user_icon,
+                R.string.navigation_problem,
+                R.id.navigation_problem
+            )
         }
         //我的
         meFragmentProviderImpl?.run {
-            val binding = LayoutNavigationButtonBinding.inflate(layoutInflater)
-            binding.ivNavigation.setImageResource(R.drawable.navigation_user_icon)
-            binding.tvNavigation.text = getString(R.string.navigation_me)
-            binding.root.id = R.id.navigation_me
-
-            addNavigationButton(binding.root)
-
-            fragments.add(this.getFragment())
+            addFragment(
+                R.drawable.navigation_user_icon,
+                R.string.navigation_me,
+                R.id.navigation_me
+            )
         }
 
         val childView: View = vp.getChildAt(0)
@@ -56,6 +64,20 @@ class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClic
         vp.isUserInputEnabled = false
         vp.offscreenPageLimit = 1
         vp.adapter = FragmentAdapter(this, fragments)
+    }
+
+    /**
+     * addFragment
+     */
+    private fun IFragmentProvider.addFragment(image: Int, text: Int, id: Int): Boolean {
+        val binding = LayoutNavigationButtonBinding.inflate(layoutInflater)
+        binding.ivNavigation.setImageResource(image)
+        binding.tvNavigation.text = getString(text)
+        binding.root.id = id
+
+        addNavigationButton(binding.root)
+
+        return fragments.add(this.getFragment())
     }
 
     /**
@@ -88,21 +110,31 @@ class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClic
     override fun initData() {
     }
 
+
+    override fun initObserver() {
+
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.navigation_home, R.id.navigation_me -> {//navigation
-                val childCount = bottom_navigation.childCount
-                for (i in 0 until childCount) {
-                    val view = bottom_navigation.getChildAt(i)
-                    view.isSelected = false
-                }
-                v.isSelected = true
-                vp.currentItem = v.tag as Int
+            R.id.navigation_home, R.id.navigation_problem, R.id.navigation_me -> {//navigation
+                val index = v.tag as Int
+                changeNavigationButton(v, index)
             }
             else -> {
 
             }
         }
+    }
+
+    private fun changeNavigationButton(v: View, index: Int) {
+        val childCount = bottom_navigation.childCount
+        for (i in 0 until childCount) {
+            val view = bottom_navigation.getChildAt(i)
+            view.isSelected = false
+        }
+        v.isSelected = true
+        vp.setCurrentItem(index, false)
     }
 
     override fun setStatusBar() {

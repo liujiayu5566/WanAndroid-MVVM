@@ -42,11 +42,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginVideModel>(), View
     }
 
     override fun initData() {
+
+    }
+
+    override fun initObserver() {
         viewModel.loginResult.observe(this, Observer {
             MmkvWrap.instance.encode(Constants.MMKV_LOGIN_RESULT, it)
             finish()
         })
     }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {

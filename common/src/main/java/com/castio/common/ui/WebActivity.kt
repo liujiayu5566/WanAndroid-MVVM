@@ -62,19 +62,17 @@ class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>(),
 
 
     private val webChromeClient = object : WebChromeClient() {
-
         override fun onReceivedTitle(view: WebView?, title: String?) {
             super.onReceivedTitle(view, title)
             dataBinding.title = title
         }
-
-        override fun onProgressChanged(view: WebView, newProgress: Int) {
-            super.onProgressChanged(view, newProgress);
-        }
-
     }
 
     override fun initData() {
+    }
+
+
+    override fun initObserver() {
     }
 
     override fun onPause() {

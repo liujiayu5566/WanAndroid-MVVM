@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    if (isModule.toBoolean()) {
+    if (isModule.toBoolean() && isLogin.toBoolean()) {
         flavorDimensions "default"
         productFlavors {
             module {

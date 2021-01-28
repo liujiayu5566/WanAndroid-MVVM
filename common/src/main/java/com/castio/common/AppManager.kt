@@ -3,6 +3,7 @@ package com.castio.common
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.LogUtils
+import com.castio.common.base.ILoginManagerProvider
 import com.tencent.mmkv.MMKV
 
 class AppManager {
@@ -27,5 +28,33 @@ class AppManager {
         ARouter.init(context)
         LogUtils.getConfig().isLogSwitch = BuildConfig.DEBUG
         LogUtils.getConfig().globalTag = "castio"
+    }
+
+    /**
+     * 是否登录
+     * @return true已登录 false未登录跳转登陆
+     */
+    fun isLoginAndGoLgin(): Boolean {
+        ARouter.getInstance().navigation(ILoginManagerProvider::class.java)?.run {
+            return if (!isLogin()) {
+                goLogin()
+                false
+            } else {
+                true
+            }
+        }
+        return false
+    }
+
+
+    /**
+     * 是否登录
+     * @return true已登录 false未登录
+     */
+    fun isLogin(): Boolean {
+        ARouter.getInstance().navigation(ILoginManagerProvider::class.java)?.run {
+            return isLogin()
+        }
+        return false
     }
 }

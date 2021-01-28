@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <id name="navigation_home" type="id" />
+    <id name="navigation_problem" type="id" />
     <id name="navigation_me" type="id" />
 </resources>

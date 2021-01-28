@@ -29,6 +29,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     protected abstract fun getLayoutId(): Int
     protected abstract fun initView()
     protected abstract fun initData()
+    protected abstract fun initObserver()
 
     private var loading: LoadingDialog? = null
 
@@ -53,6 +54,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
         super.onActivityCreated(savedInstanceState)
         loading = LoadingDialog(mContext)
         initView()
+        initObserver()
         addObserver()
         setStatusBar()
     }

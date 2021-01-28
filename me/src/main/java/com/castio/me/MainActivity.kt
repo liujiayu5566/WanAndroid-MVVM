@@ -15,9 +15,5 @@ class MainActivity : AppCompatActivity() {
         val beginTransaction = supportFragmentManager.beginTransaction()
         beginTransaction.add(R.id.c_lyout, MeFragment()).commit()
 
-        ARouter.getInstance().navigation(ILoginManagerProvider::class.java)?.run {
-            if (!isLogin())
-                goLogin()
-        }
     }
 }

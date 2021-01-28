@@ -10,6 +10,10 @@ object NavigationConstants {
     //个人中心UserFragment  Provider
     const val NAVIGATION_USERFRAGMENTPROVIDER: String = "/user/UserFragmentProviderImpl"
 
+    //问答页面
+    const val NAVIGATION_PROBLEMFRAGMENTPROVIDERIMPL: String =
+        "/problem/ProblemFragmentProviderImpl"
+
     //登陆页面
     const val NAVIGATION_LOGINACTIVITY: String = "/login/LoginActivity"
 

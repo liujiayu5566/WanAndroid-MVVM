@@ -15,7 +15,7 @@ android {
 }
 
 repositories {
-    flatDir{
+    flatDir {
         dirs '../release'
     }
 }
@@ -24,7 +24,5 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':common')
     kapt rootProject.ext.dependencies.arouter_compiler
-    if (isModule.toBoolean()) {
-        implementation(name: '../release/login', ext: 'aar')
-    }
+    implementation project(path: ':login')
 }

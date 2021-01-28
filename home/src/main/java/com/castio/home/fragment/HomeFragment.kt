@@ -59,6 +59,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
             }
 
         })
+
+        recyclerview.itemAnimator = null
+        homeListAdapter = HomeListAdapter()
+        recyclerview.layoutManager = LinearLayoutManager(context)
+        recyclerview.adapter = homeListAdapter
+        homeListAdapter?.clickListener =
+            object : BaseAdapter.OnItemClickListener<HomeListData> {
+                override fun onItemClick(
+                    view: View?,
+                    t: HomeListData,
+                    position: Int
+                ) {
+                    t.run {
+                        val intent = Intent(context, WebActivity::class.java)
+                        intent.putExtra("url", link)
+                        startActivity(intent)
+                    }
+
+                }
+            }
+    }
+
+    override fun initData() {
+        viewModel.loading.postValue(true)
+        viewModel.netBanner()
+        viewModel.netHomeList(index)
+    }
+
+
+    override fun initObserver() {
         //banner
         viewModel.bannerResult.observe(
             this, Observer {
@@ -76,31 +106,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
                 banner.start()
             }
         )
-
-        recyclerview.itemAnimator = null
         viewModel.homeResponse.observe(
             this, Observer {
-                if (homeListAdapter == null) {
-                    homeListAdapter = HomeListAdapter()
-                    recyclerview.layoutManager = LinearLayoutManager(context)
-                    recyclerview.adapter = homeListAdapter
-                    homeListAdapter?.clickListener =
-                        object : BaseAdapter.OnItemClickListener<HomeListData> {
-                            override fun onItemClick(
-                                view: View?,
-                                t: HomeListData,
-                                position: Int
-                            ) {
-                                t.run {
-                                    val intent = Intent(context, WebActivity::class.java)
-                                    intent.putExtra("url", link)
-                                    startActivity(intent)
-                                }
-
-                            }
-                        }
-                }
-
                 homeListAdapter?.run {
                     submitList(it)
                 }
@@ -111,12 +118,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
             refreshlayout.finishRefresh()
             refreshlayout.finishLoadMore()
         })
-    }
-
-    override fun initData() {
-        viewModel.loading.postValue(true)
-        viewModel.netBanner()
-        viewModel.netHomeList(index)
     }
 
     override fun setStatusBar() {

@@ -50,11 +50,6 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
         //防连点
         ClickUtils.applyGlobalDebouncing(tv_search, dataBinding.onClickListener)
 
-        viewModel.loading.observe(this, Observer {
-            refreshlayout.finishRefresh()
-            refreshlayout.finishLoadMore()
-        })
-
         refreshlayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onLoadMore(refreshLayout: RefreshLayout) {
                 index++
@@ -69,37 +64,43 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
         })
 
         recyclerview.itemAnimator = null
-        viewModel.searchResult.observe(this, Observer {
-            if (adapter == null) {
-                adapter = SearchResultAdapter()
-                recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = adapter
-                adapter?.clickListener =
-                    object : BaseAdapter.OnItemClickListener<SearchResultListData> {
-                        override fun onItemClick(
-                            view: View?,
-                            t: SearchResultListData,
-                            position: Int
-                        ) {
-                            t.run {
-                                val intent =
-                                    Intent(this@SearchResultActivity, WebActivity::class.java)
-                                intent.putExtra("url", link)
-                                startActivity(intent)
-                            }
-
-                        }
+        adapter = SearchResultAdapter()
+        recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview.adapter = adapter
+        adapter?.clickListener =
+            object : BaseAdapter.OnItemClickListener<SearchResultListData> {
+                override fun onItemClick(
+                    view: View?,
+                    t: SearchResultListData,
+                    position: Int
+                ) {
+                    t.run {
+                        val intent =
+                            Intent(this@SearchResultActivity, WebActivity::class.java)
+                        intent.putExtra("url", link)
+                        startActivity(intent)
                     }
+
+                }
             }
+    }
+
+    override fun initData() {
+        viewModel.netSearch(0, dataBinding.searchText!!)
+    }
+
+    override fun initObserver() {
+        viewModel.searchResult.observe(this, Observer {
             adapter?.submitList(it)
             if (it.isEmpty()) {
                 viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
             }
         })
-    }
 
-    override fun initData() {
-        viewModel.netSearch(0, dataBinding.searchText!!)
+        viewModel.loading.observe(this, Observer {
+            refreshlayout.finishRefresh()
+            refreshlayout.finishLoadMore()
+        })
     }
 
     override fun onClick(v: View?) {

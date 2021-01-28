@@ -26,6 +26,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     protected abstract fun getLayout(): Int
     protected abstract fun initView()
     protected abstract fun initData()
+    protected abstract fun initObserver()
     private var loading: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
         loading = LoadingDialog(this)
         addObserver()
         initView()
+        initObserver()
         initData()
         setStatusBar()
     }
