@@ -11,7 +11,6 @@ import com.castio.home.bean.HomeListData
 class HomeViewModel() : BaseViewModel() {
     var bannerResult: MediatorLiveData<List<BannerResult>> = MediatorLiveData()
     var homeResponse: MediatorLiveData<List<HomeListData>> = MediatorLiveData()
-    var complete = MediatorLiveData<Any>()
 
     fun netBanner() {
         lauch({

@@ -1,11 +1,10 @@
-include ':problem'
-include ':login'
-include ':search'
 if (!isModule.toBoolean()) {
     include ':app'
 }
+include ':problem'
+include ':login'
+include ':search'
 include ':home'
 include ':me'
 include ':common'
-//include ':test'
 rootProject.name = "mvvm-wanandroid"

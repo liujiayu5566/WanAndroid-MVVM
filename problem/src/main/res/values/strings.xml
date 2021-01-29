@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">problem</string>
+    <string name="problem">问答</string>
+    <string name="title_problem">每日一问</string>
 </resources>

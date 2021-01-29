@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ClickUtils
 import com.castio.common.Constants
 import com.castio.common.base.BaseActivity
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.common.ui.WebActivity
 import com.castio.common.utils.MmkvWrap
 import com.castio.common.widget.MultiStateView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.castio.search.R
-import com.castio.search.adapter.SearchResultAdapter
+import com.castio.search.adapter.SearchResultListAdapter
 import com.castio.search.bean.SearchResultListData
 import com.castio.search.databinding.ActivitySearchResultBinding
 import com.castio.search.viewmodel.SearchResultModel
@@ -27,7 +27,7 @@ import java.lang.reflect.Type
 
 class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchResultModel>(),
     View.OnClickListener {
-    private var adapter: SearchResultAdapter? = null
+    private var adapter: SearchResultListAdapter? = null
     private var index: Int = 0
 
 
@@ -64,11 +64,11 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
         })
 
         recyclerview.itemAnimator = null
-        adapter = SearchResultAdapter()
+        adapter = SearchResultListAdapter()
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
         adapter?.clickListener =
-            object : BaseAdapter.OnItemClickListener<SearchResultListData> {
+            object : BaseListAdapter.OnItemClickListener<SearchResultListData> {
                 override fun onItemClick(
                     view: View?,
                     t: SearchResultListData,
@@ -86,7 +86,8 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
     }
 
     override fun initData() {
-        viewModel.netSearch(0, dataBinding.searchText!!)
+        index = 0
+        viewModel.netSearch(index, dataBinding.searchText!!)
     }
 
     override fun initObserver() {

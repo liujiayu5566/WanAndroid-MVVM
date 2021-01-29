@@ -2,7 +2,7 @@ package com.msb.problem.bean
 
 data class ProblemReslut(
     val curPage: Int,
-    val datas: List<ProblemData>,
+    val datas: List<ProblemListData>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,
@@ -10,7 +10,7 @@ data class ProblemReslut(
     val total: Int
 )
 
-data class ProblemData(
+data class ProblemListData(
     val apkLink: String,
     val audit: Int,
     val author: String,

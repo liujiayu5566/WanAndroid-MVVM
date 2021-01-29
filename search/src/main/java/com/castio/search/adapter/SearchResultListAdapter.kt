@@ -3,11 +3,11 @@ package com.castio.search.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.search.bean.SearchResultListData
 import com.castio.search.databinding.ItemSearchResultListBinding
 
-class SearchResultAdapter : BaseAdapter<SearchResultListData, SearchResultAdapter.ViewHolder>() {
+class SearchResultListAdapter : BaseListAdapter<SearchResultListData, SearchResultListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =

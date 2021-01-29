@@ -7,14 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.castiel.common.NavigationConstants
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.common.base.BaseFragment
 import com.castio.common.ui.WebActivity
 import com.castio.common.utils.StatusBarUtil
 import com.castio.common.widget.MultiStateView
 import com.castio.home.R
 import com.castio.home.adapter.BannerImageAdapter
-import com.castio.home.adapter.HomeListAdapter
+import com.castio.home.adapter.HomeListListAdapter
 import com.castio.home.bean.BannerResult
 import com.castio.home.bean.HomeListData
 import com.castio.home.databinding.FragmentHomeBinding
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.OnClickListener {
     private var imageAdapter: BannerImageAdapter? = null
-    private var homeListAdapter: HomeListAdapter? = null
+    private var homeListAdapter: HomeListListAdapter? = null
     private var index = 0
 
     override fun getLayoutId(): Int {
@@ -61,11 +61,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
         })
 
         recyclerview.itemAnimator = null
-        homeListAdapter = HomeListAdapter()
+        homeListAdapter = HomeListListAdapter()
         recyclerview.layoutManager = LinearLayoutManager(context)
         recyclerview.adapter = homeListAdapter
         homeListAdapter?.clickListener =
-            object : BaseAdapter.OnItemClickListener<HomeListData> {
+            object : BaseListAdapter.OnItemClickListener<HomeListData> {
                 override fun onItemClick(
                     view: View?,
                     t: HomeListData,
@@ -83,6 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
 
     override fun initData() {
         viewModel.loading.postValue(true)
+        index = 0
         viewModel.netBanner()
         viewModel.netHomeList(index)
     }
@@ -108,9 +109,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
         )
         viewModel.homeResponse.observe(
             this, Observer {
-                homeListAdapter?.run {
-                    submitList(it)
-                }
+                homeListAdapter?.submitList(it)
                 if (it.isEmpty()) viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
             })
 
@@ -121,10 +120,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
     }
 
     override fun setStatusBar() {
-        StatusBarUtil.setTransparentForImageViewInFragment(
-            context as Activity?,
-            toolbar
-        )
+        context?.let {
+            StatusBarUtil.setTransparentForImageViewInFragment(
+                it as Activity,
+                toolbar
+            )
+        }
     }
 
     override fun onClick(v: View?) {

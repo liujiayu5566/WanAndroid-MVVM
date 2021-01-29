@@ -3,10 +3,10 @@ package com.castio.search.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.search.databinding.ItemHistoryTagBinding
 
-class HistoryAdapter : BaseAdapter<String, HistoryAdapter.ViewHolder>() {
+class HistoryListAdapter : BaseListAdapter<String, HistoryListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =

@@ -6,19 +6,60 @@
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+        <FrameLayout
+            android:id="@+id/fl_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/refreshlayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/layout_appbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:isGoneBack="@{true}"
+                app:title="@{@string/title_problem}" />
+
+
+        </FrameLayout>
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/fl_top"
+            app:srlFooterTranslationViewId="@id/recycler">
 
+            <com.castio.common.widget.MultiStateView
+                android:id="@id/state_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:msv_emptyView="@layout/empty_view"
+                app:msv_errorView="@layout/error_view">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.castio.common.widget.MultiStateView>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

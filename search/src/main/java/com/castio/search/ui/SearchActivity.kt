@@ -1,6 +1,5 @@
 package com.castio.search.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -11,13 +10,13 @@ import com.blankj.utilcode.util.ClickUtils
 import com.castiel.common.NavigationConstants
 import com.castio.common.Constants
 import com.castio.common.base.BaseActivity
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.common.decoration.RecyclerItemDecoration
 import com.castio.common.utils.MmkvWrap
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.castio.search.R
-import com.castio.search.adapter.HistoryAdapter
+import com.castio.search.adapter.HistoryListAdapter
 import com.castio.search.databinding.ActivitySearchBinding
 import com.castio.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -29,7 +28,7 @@ import java.lang.reflect.Type
 class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(),
     View.OnClickListener {
 
-    private var historyAdapter: HistoryAdapter? = null
+    private var historyAdapter: HistoryListAdapter? = null
 
     override fun initViewModel(): Class<SearchViewModel> {
         return SearchViewModel::class.java
@@ -55,7 +54,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(),
             val type: Type = object : TypeToken<ArrayList<String>?>() {}.type
             Gson().fromJson(history, type)
         }
-        historyAdapter = HistoryAdapter()
+        historyAdapter = HistoryListAdapter()
         val recyclerItemDecoration = RecyclerItemDecoration(this, 10f)
         val chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
             .build()
@@ -64,7 +63,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(),
         chips_recycler.adapter = historyAdapter
         chips_recycler.addItemDecoration(recyclerItemDecoration)
         historyAdapter?.submitList(historyList)
-        historyAdapter?.clickListener = object : BaseAdapter.OnItemClickListener<String> {
+        historyAdapter?.clickListener = object : BaseListAdapter.OnItemClickListener<String> {
             override fun onItemClick(view: View?, t: String, position: Int) {
                 goResultActivity(t)
             }

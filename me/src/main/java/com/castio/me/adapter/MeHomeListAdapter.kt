@@ -3,11 +3,11 @@ package com.castio.me.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.me.bean.MeItemModel
 import com.castio.me.databinding.ItemMeListBinding
 
-class MeHomeAdapter : BaseAdapter<MeItemModel, MeHomeAdapter.ViewHolder>() {
+class MeHomeListAdapter : BaseListAdapter<MeItemModel, MeHomeListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemMeListBinding) : RecyclerView.ViewHolder(binding.root)
 

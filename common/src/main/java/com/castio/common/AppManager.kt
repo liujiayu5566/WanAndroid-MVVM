@@ -57,4 +57,14 @@ class AppManager {
         }
         return false
     }
+
+    /**
+     * 是否登录
+     * @return true已登录 false未登录
+     */
+    fun logout() {
+        ARouter.getInstance().navigation(ILoginManagerProvider::class.java)?.run {
+            logout()
+        }
+    }
 }

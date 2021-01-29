@@ -44,7 +44,7 @@ class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClic
         //问答
         problemFragmentProviderImpl?.run {
             addFragment(
-                R.drawable.navigation_user_icon,
+                R.drawable.navigation_problem_icon,
                 R.string.navigation_problem,
                 R.id.navigation_problem
             )

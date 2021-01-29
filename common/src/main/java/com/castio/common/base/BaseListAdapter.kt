@@ -5,8 +5,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ClickUtils
+import com.blankj.utilcode.util.LogUtils
 
-abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> :
+abstract class BaseListAdapter<T, VH : RecyclerView.ViewHolder> :
     ListAdapter<T, VH>(DiffCallback<T>()) {
 
     var clickListener: OnItemClickListener<T>? = null

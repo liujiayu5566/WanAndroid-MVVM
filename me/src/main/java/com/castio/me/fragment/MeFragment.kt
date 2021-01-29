@@ -2,21 +2,18 @@ package com.castio.me.fragment
 
 import android.app.Activity
 import android.view.View
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ClickUtils
 import com.castio.common.AppManager
 import com.castio.common.Constants
-import com.castio.common.base.BaseAdapter
+import com.castio.common.base.BaseListAdapter
 import com.castio.common.base.BaseFragment
 import com.castio.common.base.BaseViewModel
-import com.castio.common.base.ILoginManagerProvider
 import com.castio.common.utils.MmkvWrap
 import com.castio.common.utils.StatusBarUtil
 import com.castio.login.bean.LoginResult
 import com.castio.me.R
-import com.castio.me.adapter.MeHomeAdapter
+import com.castio.me.adapter.MeHomeListAdapter
 import com.castio.me.bean.MeItemModel
 import com.castio.me.databinding.FragmentMeBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -42,19 +39,22 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
         ClickUtils.applyGlobalDebouncing(cardview_big, this)
 
         recyclerview.layoutManager = LinearLayoutManager(context)
-        val meHomeAdapter = MeHomeAdapter()
+        val meHomeAdapter = MeHomeListAdapter()
         recyclerview.adapter = meHomeAdapter
         val itemList = arrayListOf(
             MeItemModel(R.drawable.ic_launcher_foreground, "设置"),
+            MeItemModel(R.drawable.ic_launcher_foreground, "退出"),
         )
         meHomeAdapter.submitList(itemList)
-        meHomeAdapter.clickListener = object : BaseAdapter.OnItemClickListener<MeItemModel> {
+        meHomeAdapter.clickListener = object : BaseListAdapter.OnItemClickListener<MeItemModel> {
             override fun onItemClick(view: View?, t: MeItemModel, position: Int) {
                 when (t.title) {
                     "设置" -> {
                         viewModel.toast.postValue("设置")
                     }
-                    else -> {
+                    "退出" -> {
+                        AppManager.instance.logout()
+                        changeUserData()
                     }
                 }
             }
@@ -67,6 +67,10 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
 
     override fun onResume() {
         super.onResume()
+        changeUserData()
+    }
+
+    private fun changeUserData() {
         if (AppManager.instance.isLogin()) {
             dataBinding.model = MmkvWrap.instance.decodeParcelable(
                 Constants.MMKV_LOGIN_RESULT,
