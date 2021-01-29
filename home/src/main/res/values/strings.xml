@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">home</string>
+    <string name="home_item_top">置</string>
 </resources>

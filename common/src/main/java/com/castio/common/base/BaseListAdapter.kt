@@ -20,7 +20,7 @@ abstract class BaseListAdapter<T, VH : RecyclerView.ViewHolder> :
             }
 
             override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-                return oldItem == newItem
+                return oldItem === newItem
             }
         }
     }

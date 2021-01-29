@@ -7,10 +7,13 @@ import com.castio.common.http.RetrofitClient
 import com.castio.common.widget.MultiStateView
 import com.castio.home.bean.BannerResult
 import com.castio.home.bean.HomeListData
+import java.util.concurrent.CountDownLatch
 
 class HomeViewModel() : BaseViewModel() {
     var bannerResult: MediatorLiveData<List<BannerResult>> = MediatorLiveData()
     var homeResponse: MediatorLiveData<List<HomeListData>> = MediatorLiveData()
+    private var placedList: ArrayList<HomeListData> = arrayListOf()
+    private var countDownLatch: CountDownLatch? = null
 
     fun netBanner() {
         lauch({
@@ -46,23 +49,31 @@ class HomeViewModel() : BaseViewModel() {
             RetrofitClient.instance.getApi(Api::class.java).netHomeList(index)
         },
             {
-                when {
-                    it == null -> {
+                when (it) {
+                    null -> {
                         state.postValue(MultiStateView.ViewState.ERROR)
                     }
-                    it.datas.isEmpty() -> {
-
-                    }
                     else -> {
+                        countDownLatch = countDownLatch?.run {
+                            await()
+                            null
+                        }
                         state.postValue(MultiStateView.ViewState.CONTENT)
-                        homeResponse.value?.run {
-                            val list = toMutableList()
+                        val value = homeResponse.value?.also { homeList ->
+                            val list = homeList.toMutableList()
                             if (index == 0) {
                                 list.clear()
+                                if (placedList.size > 0) list.addAll(placedList)
                             }
-                            list.addAll(it.datas)
+                            if (it.datas.isNotEmpty())
+                                list.addAll(it.datas)
                             homeResponse.postValue(list)
-                        } ?: homeResponse.postValue(it.datas)
+                        }
+                        if (value == null) {
+                            if (it.datas.isNotEmpty())
+                                placedList.addAll(it.datas)
+                            homeResponse.postValue(placedList)
+                        }
                     }
                 }
 
@@ -74,6 +85,41 @@ class HomeViewModel() : BaseViewModel() {
                 loading.postValue(false)
             }
         )
+    }
+
+    private fun netPlacedList() {
+        lauch({
+            RetrofitClient.instance.getApi(Api::class.java).netPlacedList()
+        },
+            {
+                when (it) {
+                    null -> {
+                        state.postValue(MultiStateView.ViewState.ERROR)
+                    }
+                    else -> {
+                        state.postValue(MultiStateView.ViewState.CONTENT)
+                        if (it.isNotEmpty()) {
+                            it.map { model ->
+                                model.isTop = true
+                            }
+                            placedList.clear()
+                            placedList.addAll(it)
+                        }
+                    }
+                }
+            }, complete = {
+                countDownLatch?.countDown()
+            }
+        )
+    }
+
+    fun netPlacedAndHomeList() {
+        countDownLatch?.run {
+            return
+        }
+        countDownLatch = CountDownLatch(1)
+        netPlacedList()
+        netHomeList(0)
     }
 
 }

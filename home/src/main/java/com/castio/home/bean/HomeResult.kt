@@ -38,15 +38,16 @@ data class HomeListData(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Tag>,
+    val tags: List<HomeListTag>,
     val title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,
-    val zan: Int
+    val zan: Int,
+    var isTop: Boolean = false
 )
 
-data class Tag(
+data class HomeListTag(
     val name: String,
     val url: String
 )

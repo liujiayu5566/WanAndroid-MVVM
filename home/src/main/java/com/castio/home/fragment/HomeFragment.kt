@@ -54,8 +54,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 index = 0
-                viewModel.netHomeList(index)
                 viewModel.netBanner()
+                viewModel.netPlacedAndHomeList()
             }
 
         })
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
         viewModel.loading.postValue(true)
         index = 0
         viewModel.netBanner()
-        viewModel.netHomeList(index)
+        viewModel.netPlacedAndHomeList()
     }
 
 
