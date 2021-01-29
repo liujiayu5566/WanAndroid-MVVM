@@ -4,6 +4,7 @@ import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.LogUtils
 import com.castio.common.base.ILoginManagerProvider
+import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.mmkv.MMKV
 
 class AppManager {
@@ -23,9 +24,12 @@ class AppManager {
         }
         this.context = context
         MMKV.initialize(context)
-        ARouter.openLog()
-        ARouter.openDebug()
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog()
+            ARouter.openDebug()
+        }
         ARouter.init(context)
+        CrashReport.initCrashReport(context, "8d25df392e", BuildConfig.DEBUG)
         LogUtils.getConfig().isLogSwitch = BuildConfig.DEBUG
         LogUtils.getConfig().globalTag = "castio"
     }

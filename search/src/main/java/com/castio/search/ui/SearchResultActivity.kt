@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.ClickUtils
 import com.castio.common.Constants
 import com.castio.common.base.BaseActivity
 import com.castio.common.base.BaseListAdapter
-import com.castio.common.ui.WebActivity
 import com.castio.common.utils.MmkvWrap
 import com.castio.common.widget.MultiStateView
 import com.google.gson.Gson
@@ -19,6 +18,7 @@ import com.castio.search.adapter.SearchResultListAdapter
 import com.castio.search.bean.SearchResultListData
 import com.castio.search.databinding.ActivitySearchResultBinding
 import com.castio.search.viewmodel.SearchResultModel
+import com.msb.module_common.ui.WebActivity
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.android.synthetic.main.activity_search_result.*

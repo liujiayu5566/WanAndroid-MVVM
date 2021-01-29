@@ -1,4 +1,4 @@
-package com.castio.login.ui
+package com.msb.module_common.ui
 
 import android.app.Activity
 import android.view.View
@@ -8,9 +8,9 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.castio.common.Constants
 import com.castio.common.base.BaseActivity
 import com.castio.common.utils.MmkvWrap
-import com.castio.login.R
-import com.castio.login.databinding.ActivityRegisterBinding
-import com.castio.login.viewmodel.RegisterVideModel
+import com.msb.module_common.R
+import com.msb.module_common.databinding.ActivityRegisterBinding
+import com.msb.module_common.viewmodel.RegisterVideModel
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.et_admin
 import kotlinx.android.synthetic.main.activity_register.et_password

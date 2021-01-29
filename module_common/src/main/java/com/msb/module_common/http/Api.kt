@@ -1,7 +1,7 @@
-package com.castio.login.http
+package com.msb.module_common.http
 
 import com.castio.common.base.BaseResponse
-import com.castio.login.bean.LoginResult
+import com.msb.module_common.bean.LoginResult
 import retrofit2.http.*
 
 interface Api {

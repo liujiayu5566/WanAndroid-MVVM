@@ -1,5 +1,5 @@
-boolean isLoginGradle = isLogin.toBoolean() ? isLogin.toBoolean() : project.getName() != "login"
-if (isModule.toBoolean() && isLoginGradle) {
+boolean isCommonModule = project.getName() == "module_common"
+if (isModule.toBoolean() && !isCommonModule) {
     apply plugin: 'com.android.application'
 } else {
     apply from: "../aar.gradle"
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        if (isModule.toBoolean() && isLoginGradle)
+        if (isModule.toBoolean() && !isCommonModule)
             applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -33,7 +33,7 @@ android {
 
     sourceSets {
         main {
-            if (isModule.toBoolean() && isLoginGradle) {
+            if (isModule.toBoolean() && !isCommonModule) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
                 java {
                     //全部Module一起编译的时候剔除debug目录

@@ -1,4 +1,4 @@
-package com.castio.login
+package com.msb.module_common
 
 import org.junit.Test
 

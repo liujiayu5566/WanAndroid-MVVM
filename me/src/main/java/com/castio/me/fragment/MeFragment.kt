@@ -11,12 +11,12 @@ import com.castio.common.base.BaseFragment
 import com.castio.common.base.BaseViewModel
 import com.castio.common.utils.MmkvWrap
 import com.castio.common.utils.StatusBarUtil
-import com.castio.login.bean.LoginResult
 import com.castio.me.R
 import com.castio.me.adapter.MeHomeListAdapter
 import com.castio.me.bean.MeItemModel
 import com.castio.me.databinding.FragmentMeBinding
 import com.google.android.material.appbar.AppBarLayout
+import com.msb.module_common.bean.LoginResult
 import kotlinx.android.synthetic.main.fragment_me.*
 import kotlin.math.abs
 
@@ -43,6 +43,7 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
         recyclerview.adapter = meHomeAdapter
         val itemList = arrayListOf(
             MeItemModel(R.drawable.ic_launcher_foreground, "设置"),
+            MeItemModel(R.drawable.ic_launcher_foreground, "收藏"),
             MeItemModel(R.drawable.ic_launcher_foreground, "退出"),
         )
         meHomeAdapter.submitList(itemList)
@@ -51,6 +52,9 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
                 when (t.title) {
                     "设置" -> {
                         viewModel.toast.postValue("设置")
+                    }
+                    "收藏" -> {
+
                     }
                     "退出" -> {
                         AppManager.instance.logout()
@@ -71,13 +75,11 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
     }
 
     private fun changeUserData() {
-        if (AppManager.instance.isLogin()) {
-            dataBinding.model = MmkvWrap.instance.decodeParcelable(
-                Constants.MMKV_LOGIN_RESULT,
-                LoginResult::class.java,
-                null
-            )
-        }
+        dataBinding.model = if (AppManager.instance.isLogin()) MmkvWrap.instance.decodeParcelable(
+            Constants.MMKV_LOGIN_RESULT,
+            LoginResult::class.java,
+            null
+        ) else null
     }
 
 

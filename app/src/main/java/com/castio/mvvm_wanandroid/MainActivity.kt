@@ -13,6 +13,7 @@ import com.castio.common.base.IFragmentProvider
 import com.castio.common.utils.StatusBarUtil
 import com.castio.mvvm_wanandroid.adapter.FragmentAdapter
 import com.castio.mvvm_wanandroid.databinding.LayoutNavigationButtonBinding
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 

@@ -1,4 +1,4 @@
-package com.castio.common.ui
+package com.msb.module_common.ui
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
@@ -8,21 +8,19 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.castio.common.R
 import com.castio.common.base.BaseActivity
 import com.castio.common.base.BaseViewModel
-import com.castio.common.databinding.ActivityCommonWebviewBinding
 import com.castio.common.utils.ToastUtils
 import com.castio.common.widget.MultiStateView
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.BaseIndicatorView
 import com.just.agentweb.WebChromeClient
-import com.youth.banner.indicator.BaseIndicator
-import kotlinx.android.synthetic.main.activity_common_webview.*
+import com.msb.module_common.R
+import com.msb.module_common.databinding.ActivityWebviewBinding
+import kotlinx.android.synthetic.main.activity_webview.*
 import java.lang.ref.WeakReference
 
 
-class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>(),
+class WebActivity : BaseActivity<ActivityWebviewBinding, BaseViewModel>(),
     View.OnClickListener {
     private lateinit var mAgentWeb: AgentWeb
     override fun initViewModel(): Class<BaseViewModel> {
@@ -34,7 +32,7 @@ class WebActivity : BaseActivity<ActivityCommonWebviewBinding, BaseViewModel>(),
     }
 
     override fun getLayout(): Int {
-        return R.layout.activity_common_webview
+        return R.layout.activity_webview
     }
 
     @SuppressLint("SetJavaScriptEnabled")

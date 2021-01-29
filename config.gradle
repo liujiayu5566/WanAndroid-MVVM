@@ -41,6 +41,7 @@ ext {
             utilcodex              : 'com.blankj:utilcodex:1.30.5',
             mmkv                   : 'com.tencent:mmkv-static:1.2.5',
             gif_drawable           : 'pl.droidsonroids.gif:android-gif-drawable:1.2.+',
+            bugly                  : 'com.tencent.bugly:crashreport:3.3.3',
     ]
 }
 

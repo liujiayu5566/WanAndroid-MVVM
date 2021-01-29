@@ -1,4 +1,4 @@
-package com.castio.login
+package com.msb.module_common
 
 import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -7,7 +7,7 @@ import com.castiel.common.NavigationConstants
 import com.castio.common.Constants
 import com.castio.common.base.ILoginManagerProvider
 import com.castio.common.utils.MmkvWrap
-import com.castio.login.bean.LoginResult
+import com.msb.module_common.bean.LoginResult
 
 @Route(path = NavigationConstants.NAVIGATION_LOGINMANAGER)
 class LoginManager : ILoginManagerProvider {

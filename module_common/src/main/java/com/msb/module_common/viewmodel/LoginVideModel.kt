@@ -1,22 +1,18 @@
-package com.castio.login.viewmodel
+package com.msb.module_common.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.castio.common.base.BaseViewModel
 import com.castio.common.http.RetrofitClient
-import com.castio.login.bean.LoginResult
-import com.castio.login.http.Api
+import com.msb.module_common.bean.LoginResult
+import com.msb.module_common.http.Api
 
-class RegisterVideModel : BaseViewModel() {
+class LoginVideModel : BaseViewModel() {
     val loginResult: MutableLiveData<LoginResult> = MutableLiveData<LoginResult>()
 
-    /**
-     * 注册账号
-     */
-    fun netRsgister(userName: String, password: String) {
+    fun netLogin(userName: String, password: String) {
         loading.postValue(true)
         lauch({
-            RetrofitClient.instance.getApi(Api::class.java)
-                .netRsgister(userName, password, password)
+            RetrofitClient.instance.getApi(Api::class.java).netLogin(userName, password)
         }, {
             when (it) {
                 null -> {

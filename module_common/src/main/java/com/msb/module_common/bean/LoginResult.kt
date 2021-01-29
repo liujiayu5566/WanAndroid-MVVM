@@ -1,4 +1,4 @@
-package com.castio.login.bean
+package com.msb.module_common.bean
 
 import android.os.Parcel
 import android.os.Parcelable

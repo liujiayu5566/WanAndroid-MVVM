@@ -1,4 +1,4 @@
-package com.castio.login.ui
+package com.msb.module_common.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -10,11 +10,10 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.castiel.common.NavigationConstants
 import com.castio.common.Constants
 import com.castio.common.base.BaseActivity
-import com.castio.common.base.BaseViewModel
 import com.castio.common.utils.MmkvWrap
-import com.castio.login.R
-import com.castio.login.databinding.ActivityLoginBinding
-import com.castio.login.viewmodel.LoginVideModel
+import com.msb.module_common.R
+import com.msb.module_common.databinding.ActivityLoginBinding
+import com.msb.module_common.viewmodel.LoginVideModel
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Route(path = NavigationConstants.NAVIGATION_LOGINACTIVITY)

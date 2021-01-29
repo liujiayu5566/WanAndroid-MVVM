@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.castio.login.bean.LoginResult" />
+            type="com.msb.module_common.bean.LoginResult" />
     </data>
 
 

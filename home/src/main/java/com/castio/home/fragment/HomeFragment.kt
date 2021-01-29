@@ -9,7 +9,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.castiel.common.NavigationConstants
 import com.castio.common.base.BaseListAdapter
 import com.castio.common.base.BaseFragment
-import com.castio.common.ui.WebActivity
 import com.castio.common.utils.StatusBarUtil
 import com.castio.common.widget.MultiStateView
 import com.castio.home.R
@@ -19,6 +18,7 @@ import com.castio.home.bean.BannerResult
 import com.castio.home.bean.HomeListData
 import com.castio.home.databinding.FragmentHomeBinding
 import com.castio.home.viewmodel.HomeViewModel
+import com.msb.module_common.ui.WebActivity
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.youth.banner.indicator.RectangleIndicator
@@ -95,11 +95,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
             this, Observer {
                 if (imageAdapter == null) {
                     imageAdapter = BannerImageAdapter(it)
-                    imageAdapter?.setOnBannerListener(OnBannerListener<BannerResult> { data, position ->
-                        val url = data?.url
-                        val intent = Intent(context, WebActivity::class.java)
-                        intent.putExtra("url", url)
-                        startActivity(intent)
+                    imageAdapter?.setOnBannerListener(object : OnBannerListener<BannerResult> {
+                        override fun OnBannerClick(data: BannerResult?, position: Int) {
+                            val url = data?.url
+                            val intent = Intent(context, WebActivity::class.java)
+                            intent.putExtra("url", url)
+                            startActivity(intent)
+                        }
                     })
                     banner.addBannerLifecycleObserver(this)//添加生命周期观察者
                         .setAdapter(imageAdapter).indicator = RectangleIndicator(context)

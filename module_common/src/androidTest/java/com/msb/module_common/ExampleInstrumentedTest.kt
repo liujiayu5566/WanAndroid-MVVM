@@ -1,4 +1,4 @@
-package com.castio.login
+package com.msb.module_common
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.castio.login.test", appContext.packageName)
+        assertEquals("com.msb.module_common.test", appContext.packageName)
     }
 }

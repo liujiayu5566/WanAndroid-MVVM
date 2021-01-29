@@ -1,8 +1,8 @@
 if (!isModule.toBoolean()) {
     include ':app'
 }
+include ':module_common'
 include ':problem'
-include ':login'
 include ':search'
 include ':home'
 include ':me'
