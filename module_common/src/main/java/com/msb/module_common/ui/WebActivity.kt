@@ -8,13 +8,16 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ClickUtils
+import com.castio.common.AppManager
 import com.castio.common.base.BaseActivity
 import com.castio.common.base.BaseViewModel
 import com.castio.common.utils.ToastUtils
 import com.castio.common.widget.MultiStateView
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
+import com.msb.module_common.LoginManager
 import com.msb.module_common.R
 import com.msb.module_common.databinding.ActivityWebviewBinding
 import kotlinx.android.synthetic.main.activity_webview.*
@@ -121,13 +124,15 @@ class WebActivity : BaseActivity<ActivityWebviewBinding, BaseViewModel>(),
                 finish()
             }
             R.id.iv_like -> {
-                with(iv_like) {
-                    viewModel.toast.value = ("暂无收藏功能")
-                    if (!isAnimating) {
-                        if (progress == 0f) {
-                            playAnimation()
-                        } else {
-                            progress = 0f
+                if (AppManager.instance.isLoginAndGoLgin()) {
+                    with(iv_like) {
+                        viewModel.toast.value = ("暂无收藏功能")
+                        if (!isAnimating) {
+                            if (progress == 0f) {
+                                playAnimation()
+                            } else {
+                                progress = 0f
+                            }
                         }
                     }
                 }
