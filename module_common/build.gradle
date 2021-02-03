@@ -3,17 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-android {
-    if (isModule.toBoolean() && isLogin.toBoolean()) {
-        flavorDimensions "default"
-        productFlavors {
-            module {
-                applicationIdSuffix ".login"
-            }
-        }
-    }
-}
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':common')

@@ -52,6 +52,7 @@ class ProblemFragment : BaseFragment<FragmentProblemBinding, ProblemViewModel>()
                     t.run {
                         val intent = Intent(context, WebActivity::class.java)
                         intent.putExtra("url", link)
+                        intent.putExtra("isShowLike", true)
                         startActivity(intent)
                     }
 
@@ -72,7 +73,7 @@ class ProblemFragment : BaseFragment<FragmentProblemBinding, ProblemViewModel>()
     }
 
     override fun initData() {
-        viewModel.loading.postValue(true)
+        viewModel.loading.value = true
         index = 0
         viewModel.netProblemList(index)
     }
@@ -80,9 +81,6 @@ class ProblemFragment : BaseFragment<FragmentProblemBinding, ProblemViewModel>()
     override fun initObserver() {
         viewModel.problemReslutList.observe(this, Observer {
             problemAdapter?.submitList(it)
-            if (it.isEmpty()) {
-                viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
-            }
         })
         viewModel.loading.observe(this, Observer {
             refreshlayout.finishRefresh()

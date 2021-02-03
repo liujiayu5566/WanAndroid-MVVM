@@ -23,8 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        tools:showIn="@layout/activity_common_webview">
+        android:background="@color/colorPrimary">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_back"

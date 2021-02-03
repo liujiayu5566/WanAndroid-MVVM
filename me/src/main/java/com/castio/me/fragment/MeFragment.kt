@@ -1,7 +1,10 @@
 package com.castio.me.fragment
 
 import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ClickUtils
 import com.castio.common.AppManager
@@ -21,7 +24,8 @@ import kotlinx.android.synthetic.main.fragment_me.*
 import kotlin.math.abs
 
 class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClickListener {
-
+    private val itemList = arrayListOf<MeItemModel>()
+    private val meHomeAdapter = MeHomeListAdapter()
     override fun getLayoutId(): Int {
         return R.layout.fragment_me
     }
@@ -37,28 +41,35 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
     override fun initView() {
         ClickUtils.applyGlobalDebouncing(tv_username, this)
         ClickUtils.applyGlobalDebouncing(cardview_big, this)
+        //切换暗黑模式
+//        itemList.add(MeItemModel(R.drawable.ic_launcher_foreground, "切换暗黑模式"))
+        if (AppManager.instance.isLogin()) {
+            itemList.add(MeItemModel(R.drawable.ic_launcher_foreground, "退出"))
+        }
 
         recyclerview.layoutManager = LinearLayoutManager(context)
-        val meHomeAdapter = MeHomeListAdapter()
         recyclerview.adapter = meHomeAdapter
-        val itemList = arrayListOf(
-            MeItemModel(R.drawable.ic_launcher_foreground, "设置"),
-            MeItemModel(R.drawable.ic_launcher_foreground, "收藏"),
-            MeItemModel(R.drawable.ic_launcher_foreground, "退出"),
-        )
+
         meHomeAdapter.submitList(itemList)
         meHomeAdapter.clickListener = object : BaseListAdapter.OnItemClickListener<MeItemModel> {
             override fun onItemClick(view: View?, t: MeItemModel, position: Int) {
                 when (t.title) {
-                    "设置" -> {
-                        viewModel.toast.postValue("设置")
-                    }
-                    "收藏" -> {
-
+                    "切换暗黑模式" -> {
+                        if (context != null)
+                            if (isNightMode(context!!)) {
+                                // 关闭暗黑模式
+                                viewModel.toast.value = "关闭暗黑模式"
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            } else {
+                                // 开启暗黑模式
+                                viewModel.toast.value = "开启暗黑模式"
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            }
                     }
                     "退出" -> {
                         AppManager.instance.logout()
                         changeUserData()
+                        viewModel.toast.value = "退出成功"
                     }
                 }
             }
@@ -75,11 +86,29 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
     }
 
     private fun changeUserData() {
-        dataBinding.model = if (AppManager.instance.isLogin()) MmkvWrap.instance.decodeParcelable(
-            Constants.MMKV_LOGIN_RESULT,
-            LoginResult::class.java,
+        dataBinding.model = if (AppManager.instance.isLogin()) {
+            itemList.map {
+                if ("退出" == it.title) {
+                    itemList.add(MeItemModel(R.drawable.ic_launcher_foreground, "退出"))
+                    meHomeAdapter.submitList(itemList)
+                    return
+                }
+            }
+            MmkvWrap.instance.decodeParcelable(
+                Constants.MMKV_LOGIN_RESULT,
+                LoginResult::class.java,
+                null
+            )
+        } else {
+            itemList.map {
+                if ("退出" == it.title) {
+                    itemList.remove(it)
+                    meHomeAdapter.submitList(itemList)
+                    return
+                }
+            }
             null
-        ) else null
+        }
     }
 
 
@@ -110,4 +139,11 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
 
     }
 
+
+    //判断深色主题是否开启
+    fun isNightMode(context: Context): Boolean {
+        val currentNightMode: Int =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    }
 }

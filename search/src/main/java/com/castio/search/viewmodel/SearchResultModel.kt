@@ -19,24 +19,27 @@ class SearchResultModel : BaseViewModel() {
         }, {
             when (it) {
                 null -> {
-                    state.postValue(MultiStateView.ViewState.ERROR)
+                    state.value = MultiStateView.ViewState.ERROR
                 }
                 else -> {
-                    state.postValue(MultiStateView.ViewState.CONTENT)
+                    state.value = MultiStateView.ViewState.CONTENT
                     searchResult.value?.run {
                         val list = toMutableList()
                         if (index == 0) {
                             list.clear()
                         }
                         list.addAll(it.datas)
-                        searchResult.postValue(list)
-                    } ?: searchResult.postValue(it.datas)
+                        searchResult.value = list
+                    } ?: also { _ -> searchResult.value = it.datas }
+
+                    if (searchResult.value == null || searchResult.value!!.isEmpty())
+                        state.value = MultiStateView.ViewState.EMPTY
                 }
             }
         }, failure = {
-            toast.postValue(it.errorMsg)
+            toast.value = it.errorMsg
         }, complete = {
-            loading.postValue(false)
+            loading.value = false
         })
     }
 

@@ -13,7 +13,7 @@ interface Api {
         @Field("password") password: String
     ): BaseResponse<LoginResult>
 
-
+    //注册
     @FormUrlEncoded
     @POST("/user/register")
     suspend fun netRsgister(
@@ -21,4 +21,6 @@ interface Api {
         @Field("password") password: String,
         @Field("repassword") rePassword: String
     ): BaseResponse<LoginResult>
+
+
 }

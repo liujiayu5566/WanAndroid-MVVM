@@ -1,7 +1,11 @@
 package com.castio.mvvm_wanandroid
 
+import android.content.Context
+import android.content.res.Configuration
+import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.view.get
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +17,12 @@ import com.castio.common.base.IFragmentProvider
 import com.castio.common.utils.StatusBarUtil
 import com.castio.mvvm_wanandroid.adapter.FragmentAdapter
 import com.castio.mvvm_wanandroid.databinding.LayoutNavigationButtonBinding
-import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClickListener {
     private val fragments: ArrayList<Fragment> = ArrayList()
+    private var currentItem: Int = 0
 
     @JvmField
     @Autowired(name = NavigationConstants.NAVIGATION_HOMEFRAGMENTPROVIDER)
@@ -86,7 +90,7 @@ class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClic
      */
     private fun addNavigationButton(view: View) {
         view.setOnClickListener(this)
-        if (bottom_navigation.childCount == 0) {
+        if (bottom_navigation.childCount == currentItem) {
             view.isSelected = true
         }
         view.tag = bottom_navigation.childCount
@@ -142,5 +146,17 @@ class MainActivity : BaseActivity<ViewDataBinding, BaseViewModel>(), View.OnClic
         StatusBarUtil.setTranslucentForImageView(this, null)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("currentItem", vp.currentItem)
+    }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val currentItem = savedInstanceState.getInt("currentItem", 0)
+        for (i in 0 until bottom_navigation.childCount) {
+            val view = bottom_navigation[i]
+            view.isSelected = currentItem == i
+        }
+    }
 }

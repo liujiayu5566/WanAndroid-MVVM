@@ -33,13 +33,12 @@ open class BaseViewModel : ViewModel() {
                 } else {
                     failure?.run {
                         invoke(response)
-                    }
-                        ?: if (!TextUtils.isEmpty(response.errorMsg))
-                            toast.postValue(response.errorMsg)
+                    } ?: if (!TextUtils.isEmpty(response.errorMsg))
+                        toast.value = response.errorMsg
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                error?.run { invoke(e.toString()) } ?: toast.postValue("网络异常，请稍后重试")
+                error?.run { invoke(e.toString()) } ?: also { toast.value = "网络异常，请稍后重试" }
             } finally {
                 complete?.invoke()
             }

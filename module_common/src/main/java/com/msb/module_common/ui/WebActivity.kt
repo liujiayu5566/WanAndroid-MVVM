@@ -8,6 +8,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.ClickUtils
 import com.castio.common.base.BaseActivity
 import com.castio.common.base.BaseViewModel
 import com.castio.common.utils.ToastUtils
@@ -37,12 +38,16 @@ class WebActivity : BaseActivity<ActivityWebviewBinding, BaseViewModel>(),
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
+        dataBinding.onClickListener = this
+
+        val isShowLike = intent.getBooleanExtra("isShowLike", false)
+        dataBinding.like = isShowLike
+
         val url = intent.getStringExtra("url")
         if (TextUtils.isEmpty(url)) {
-            viewModel.state.postValue(MultiStateView.ViewState.ERROR)
+            viewModel.state.value = (MultiStateView.ViewState.ERROR)
             return
         }
-        dataBinding.onClickListener = this
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(webview, LinearLayout.LayoutParams(-1, -1))
             .useDefaultIndicator(ContextCompat.getColor(this, R.color.green_50), 2)
@@ -115,7 +120,20 @@ class WebActivity : BaseActivity<ActivityWebviewBinding, BaseViewModel>(),
             R.id.iv_back -> {
                 finish()
             }
-            else -> {
+            R.id.iv_like -> {
+                with(iv_like) {
+                    viewModel.toast.value = ("暂无收藏功能")
+                    if (!isAnimating) {
+                        if (progress == 0f) {
+                            playAnimation()
+                        } else {
+                            progress = 0f
+                        }
+                    }
+                }
+            }
+            R.id.iv_share -> {
+                viewModel.toast.value = ("暂无分享功能")
             }
         }
     }

@@ -10,7 +10,7 @@ class LoginVideModel : BaseViewModel() {
     val loginResult: MutableLiveData<LoginResult> = MutableLiveData<LoginResult>()
 
     fun netLogin(userName: String, password: String) {
-        loading.postValue(true)
+        loading.value = true
         lauch({
             RetrofitClient.instance.getApi(Api::class.java).netLogin(userName, password)
         }, {
@@ -19,11 +19,11 @@ class LoginVideModel : BaseViewModel() {
 
                 }
                 else -> {
-                    loginResult.postValue(it)
+                    loginResult.value = it
                 }
             }
         }, complete = {
-            loading.postValue(false)
+            loading.value = false
         })
 
     }

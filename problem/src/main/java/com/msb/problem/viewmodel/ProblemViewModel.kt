@@ -17,10 +17,10 @@ class ProblemViewModel : BaseViewModel() {
         }, {
             when (it) {
                 null -> {
-                    state.postValue(MultiStateView.ViewState.ERROR)
+                    state.value = MultiStateView.ViewState.ERROR
                 }
                 else -> {
-                    state.postValue(MultiStateView.ViewState.CONTENT)
+                    state.value = MultiStateView.ViewState.CONTENT
                     if (it.datas.isNotEmpty()) {
                         problemReslutList.value?.run {
                             val list = toMutableList()
@@ -28,15 +28,18 @@ class ProblemViewModel : BaseViewModel() {
                                 list.clear()
                             }
                             list.addAll(it.datas)
-                            problemReslutList.postValue(list)
-                        } ?: problemReslutList.postValue(it.datas)
+                            problemReslutList.value = list
+                        } ?: also { _ -> problemReslutList.value = it.datas }
                     }
+
+                    if (problemReslutList.value == null || problemReslutList.value!!.isEmpty())
+                        state.value = MultiStateView.ViewState.EMPTY
                 }
             }
         }, failure = {
-            state.postValue(MultiStateView.ViewState.ERROR)
+            state.value = MultiStateView.ViewState.ERROR
         }, complete = {
-            loading.postValue(false)
+            loading.value = false
         })
 
     }

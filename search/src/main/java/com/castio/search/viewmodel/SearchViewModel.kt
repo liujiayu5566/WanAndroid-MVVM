@@ -20,23 +20,23 @@ class SearchViewModel : BaseViewModel() {
             {
                 when {
                     it == null -> {
-                        state.postValue(MultiStateView.ViewState.ERROR)
+                        state.value = MultiStateView.ViewState.ERROR
                     }
                     it.isEmpty() -> {
-                        state.postValue(MultiStateView.ViewState.EMPTY)
+                        state.value = MultiStateView.ViewState.EMPTY
                     }
                     else -> {
-                        state.postValue(MultiStateView.ViewState.CONTENT)
-                        searchHotResult.postValue(it)
+                        state.value = MultiStateView.ViewState.CONTENT
+                        searchHotResult.value = it
                     }
                 }
 
             }, failure = {
-                toast.postValue(it.errorMsg)
+                toast.value = it.errorMsg
             }, error = {
                 state.value = MultiStateView.ViewState.ERROR
             }, complete = {
-                loading.postValue(false)
+                loading.value = false
             }
         )
     }

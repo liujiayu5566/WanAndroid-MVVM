@@ -7,6 +7,7 @@ import com.castio.common.http.RetrofitClient
 import com.castio.common.widget.MultiStateView
 import com.castio.home.bean.BannerResult
 import com.castio.home.bean.HomeListData
+import com.castio.home.bean.HomeResult
 import java.util.concurrent.CountDownLatch
 
 class HomeViewModel() : BaseViewModel() {
@@ -28,17 +29,17 @@ class HomeViewModel() : BaseViewModel() {
 
                     }
                     else -> {
-                        state.postValue(MultiStateView.ViewState.CONTENT)
-                        bannerResult.postValue(it)
+                        state.value = MultiStateView.ViewState.CONTENT
+                        bannerResult.value = it
                     }
                 }
 
             }, failure = {
-                toast.postValue(it.errorMsg)
+                toast.value = it.errorMsg
             }, error = {
                 state.value = MultiStateView.ViewState.ERROR
             }, complete = {
-                loading.postValue(false)
+                loading.value = false
             }
         )
     }
@@ -51,38 +52,42 @@ class HomeViewModel() : BaseViewModel() {
             {
                 when (it) {
                     null -> {
-                        state.postValue(MultiStateView.ViewState.ERROR)
+                        state.value = MultiStateView.ViewState.ERROR
                     }
                     else -> {
                         countDownLatch = countDownLatch?.run {
                             await()
                             null
                         }
-                        state.postValue(MultiStateView.ViewState.CONTENT)
-                        val value = homeResponse.value?.also { homeList ->
-                            val list = homeList.toMutableList()
+
+                        state.value = MultiStateView.ViewState.CONTENT
+                        homeResponse.value?.run {
+                            val list = toMutableList()
                             if (index == 0) {
                                 list.clear()
                                 if (placedList.size > 0) list.addAll(placedList)
                             }
                             if (it.datas.isNotEmpty())
                                 list.addAll(it.datas)
-                            homeResponse.postValue(list)
-                        }
-                        if (value == null) {
+                            homeResponse.value = list
+                        } ?: run {
                             if (it.datas.isNotEmpty())
                                 placedList.addAll(it.datas)
-                            homeResponse.postValue(placedList)
+                            homeResponse.value = placedList
                         }
+
+                        if (homeResponse.value == null || homeResponse.value!!.isEmpty())
+                            state.value = MultiStateView.ViewState.EMPTY
+
                     }
                 }
 
             }, failure = {
-                toast.postValue(it.errorMsg)
+                toast.value = it.errorMsg
             }, error = {
                 state.value = MultiStateView.ViewState.ERROR
             }, complete = {
-                loading.postValue(false)
+                loading.value = false
             }
         )
     }
@@ -94,10 +99,10 @@ class HomeViewModel() : BaseViewModel() {
             {
                 when (it) {
                     null -> {
-                        state.postValue(MultiStateView.ViewState.ERROR)
+                        state.value = MultiStateView.ViewState.ERROR
                     }
                     else -> {
-                        state.postValue(MultiStateView.ViewState.CONTENT)
+                        state.value = MultiStateView.ViewState.CONTENT
                         if (it.isNotEmpty()) {
                             it.map { model ->
                                 model.isTop = true

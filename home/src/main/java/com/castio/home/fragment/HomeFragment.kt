@@ -74,6 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
                     t.run {
                         val intent = Intent(context, WebActivity::class.java)
                         intent.putExtra("url", link)
+                        intent.putExtra("isShowLike", true)
                         startActivity(intent)
                     }
 
@@ -82,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
     }
 
     override fun initData() {
-        viewModel.loading.postValue(true)
+        viewModel.loading.value = true
         index = 0
         viewModel.netBanner()
         viewModel.netPlacedAndHomeList()
@@ -112,7 +113,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(), View.On
         viewModel.homeResponse.observe(
             this, Observer {
                 homeListAdapter?.submitList(it)
-                if (it.isEmpty()) viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
             })
 
         viewModel.loading.observe(this, Observer {

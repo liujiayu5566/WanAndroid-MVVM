@@ -73,7 +73,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
         stateView?.let {
             stateView.getView(MultiStateView.ViewState.ERROR)?.findViewById<TextView>(R.id.retry)
                 ?.setOnClickListener {
-                    viewModel.toast.postValue("重试")
+                    viewModel.toast.value = "重试"
                     initData()
                 }
             viewModel.state.observe(this, Observer {

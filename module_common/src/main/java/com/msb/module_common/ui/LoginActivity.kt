@@ -75,7 +75,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginVideModel>(), View
                 )
             }
             R.id.tv_forget -> {
-                viewModel.toast.postValue("暂无找回密码功能(无相关接口)")
+                viewModel.toast.value = "暂无找回密码功能(无相关接口)"
             }
         }
     }

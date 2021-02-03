@@ -78,6 +78,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
                         val intent =
                             Intent(this@SearchResultActivity, WebActivity::class.java)
                         intent.putExtra("url", link)
+                        intent.putExtra("isShowLike", true)
                         startActivity(intent)
                     }
 
@@ -93,9 +94,6 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, SearchRes
     override fun initObserver() {
         viewModel.searchResult.observe(this, Observer {
             adapter?.submitList(it)
-            if (it.isEmpty()) {
-                viewModel.state.postValue(MultiStateView.ViewState.EMPTY)
-            }
         })
 
         viewModel.loading.observe(this, Observer {

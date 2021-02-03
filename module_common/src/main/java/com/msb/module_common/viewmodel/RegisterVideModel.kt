@@ -13,7 +13,7 @@ class RegisterVideModel : BaseViewModel() {
      * 注册账号
      */
     fun netRsgister(userName: String, password: String) {
-        loading.postValue(true)
+        loading.value = true
         lauch({
             RetrofitClient.instance.getApi(Api::class.java)
                 .netRsgister(userName, password, password)
@@ -23,11 +23,11 @@ class RegisterVideModel : BaseViewModel() {
 
                 }
                 else -> {
-                    loginResult.postValue(it)
+                    loginResult.value = it
                 }
             }
         }, complete = {
-            loading.postValue(false)
+            loading.value = false
         })
 
     }
