@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.castio.common.utils.DensityUtils
 
+/**
+ * recyclerview 增加间隔
+ */
 class RecyclerItemDecoration : RecyclerView.ItemDecoration {
 
     private var distance = 0

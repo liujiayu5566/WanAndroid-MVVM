@@ -40,7 +40,7 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
 
     override fun initView() {
         ClickUtils.applyGlobalDebouncing(tv_username, this)
-        ClickUtils.applyGlobalDebouncing(cardview_big, this)
+        ClickUtils.applyGlobalDebouncing(iv_avatar_big, this)
         //切换暗黑模式
 //        itemList.add(MeItemModel(R.drawable.ic_launcher_foreground, "切换暗黑模式"))
         if (AppManager.instance.isLogin()) {
@@ -125,7 +125,7 @@ class MeFragment : BaseFragment<FragmentMeBinding, BaseViewModel>(), View.OnClic
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.tv_username, R.id.cardview_big -> {
+            R.id.tv_username, R.id.iv_avatar_big -> {
                 if (AppManager.instance.isLoginAndGoLgin()) {
 
                 }

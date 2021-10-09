@@ -14,4 +14,13 @@
         <attr name="msv_animateViewChanges" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="BoldTextView">
+        <attr name="striking">
+            <enum name="fine" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="b3" value="3" />
+            <enum name="b4" value="4" />
+        </attr>
+    </declare-styleable>
+
 </resources>
