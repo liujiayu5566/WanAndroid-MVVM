@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
  *
  * @author jiayu.liu
  */
-class MixedTextView : AppCompatTextView {
+open class MixedTextView : AppCompatTextView {
     private var mEnabled = true
     private var mExactly = true
 

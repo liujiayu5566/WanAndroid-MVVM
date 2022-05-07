@@ -9,12 +9,11 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lalamove.huolala.map.xlcommon.util.DisplayUtils;
-import com.lalamove.huolala.xlsctx.view.BoldTextView;
+import com.castio.common.utils.DensityUtils;
 
 
 /**
- * 中英文混排自动换行描边  描边
+ * 中英文混排自动换行描边 描边
  * 需要设置width或者maxWidth才能做到适配
  *
  * @author jiayu.liu
@@ -33,7 +32,7 @@ public class StrokeTextView extends MixedTextView {
 
     public StrokeTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mWidth = DisplayUtils.dp2px(context, 2);
+        mWidth = DensityUtils.dp2px(context, 2);
         borderText = new TextView(context, attrs);
         init();
     }
